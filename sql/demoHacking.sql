@@ -28,7 +28,7 @@ CREATE TABLE `accounts` (
   `number` varchar(255) NOT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`account_id`),
-  FOREIGN KEY (`account_id`) REFERENCES users(user_id),
+  FOREIGN KEY (`user_id`) REFERENCES users(user_id),
   UNIQUE KEY `account_id_UNIQUE` (`account_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -46,13 +46,16 @@ INSERT INTO users (user, password, role) VALUES ('admin@mail.com', '12345678', '
 INSERT INTO users (user, password, role) VALUES ('user@mail.com', '12345678', 'user');
 INSERT INTO accounts (balance, name, number, user_id) VALUES 
 (100, 'Ahorro Soles', '19345654321012', 1),
-(1000, 'Ahorro Soles', '19345654321013', 2)
+(1000, 'Ahorro Soles', '19345654321013', 2),
+(2000, 'Ahorro Soles', '19345654321014', 2)
 ;
 INSERT INTO movements (amount, account_id, created_at) VALUES 
 (40, 1, '2022-02-24 09:00:00'),
 (60, 1, '2022-02-25 09:00:00'),
 (300, 2, '2022-02-26 09:00:00'),
-(700, 2, '2022-02-27 09:00:00')
+(700, 2, '2022-02-27 09:00:00'),
+(3000, 2, '2022-02-26 09:00:00'),
+(7000, 2, '2022-02-27 09:00:00')
 ;
 INSERT INTO products (title, description, price, image_url) VALUES 
 ('Echo Dot', 'Parlante Inteligente con Alexa', 140, NULL),

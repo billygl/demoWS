@@ -76,6 +76,7 @@
 				<configuration>
 					<sources>
 						<source>${project.basedir}/src/main/resources/bank.xsd</source>
+						<source>${project.basedir}/src/main/resources/servicestatus.xsd</source>
 					</sources>
 				</configuration>
 			</plugin>

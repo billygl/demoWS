@@ -15,28 +15,34 @@ public class UserDAO extends BaseDAO{
         super(jdbcURL, jdbcUsername, jdbcPassword);
     }
     
-    public User validateUser(String _user, String _password) throws SQLException {
+    public User validateUser(String _user, String _password){
         User user = null;
-        //unsecured
-        String sql = "SELECT * FROM users WHERE user = '" + _user + "' " 
-            + " and password = '" + _password +"'";
-        System.out.println(sql);
-        connect();        
-        PreparedStatement statement = jdbcConnection.prepareStatement(sql);
-        //statement.setString(1, _user);
-        //statement.setString(2, _password);
+        try{
+            //unsecured
+            String sql = "SELECT * FROM users WHERE user = '" + _user + "' " 
+                + " and password = '" + _password +"'";
+            System.out.println(sql);
+            connect();        
+            PreparedStatement statement = jdbcConnection.prepareStatement(sql);
+            //statement.setString(1, _user);
+            //statement.setString(2, _password);
+            
+            ResultSet resultSet = statement.executeQuery();
+            
+            if (resultSet.next()) {
+                int id = resultSet.getInt("user_id");
+                String username = resultSet.getString("user");
+                String password = resultSet.getString("password");
+                String role = resultSet.getString("role");
+                user = new User(id, username, password, role);
+            }
+            
+            resultSet.close();
+            statement.close();
         
-        ResultSet resultSet = statement.executeQuery();
-        
-        if (resultSet.next()) {
-            String username = resultSet.getString("user");
-            String password = resultSet.getString("password");
-            String role = resultSet.getString("role");
-            user = new User(username, password, role);
+        }catch(SQLException ex){
+            ex.printStackTrace();
         }
-        
-        resultSet.close();
-        statement.close();
         
         return user;
     }
