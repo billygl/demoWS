@@ -16,7 +16,6 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 public class BankEndpoint {
     private static final String NAMESPACE_URI = "http://hacking.com/demows";
 
-    private ProductDAO productDAO;
     private UserDAO userDAO;
 
     @Value( "${hacking.datasource.url}" )
@@ -26,15 +25,13 @@ public class BankEndpoint {
     @Value( "${hacking.datasource.password}" )
     private String jdbcPassword;
 
-    private void init(){
-        productDAO = new ProductDAO(jdbcURL, jdbcUsername, jdbcPassword);
+    public BankEndpoint(){
         userDAO = new UserDAO(jdbcURL, jdbcUsername, jdbcPassword);
     }
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getBalancesRequest")
 	@ResponsePayload
 	public GetBalancesResponse getBalances(@RequestPayload GetBalancesRequest request) {
-        this.init();
 		GetBalancesResponse response = new GetBalancesResponse();
 		List<Balance> balances = response.getBalances();
         Balance balance = new Balance();
