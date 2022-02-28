@@ -1,0 +1,88 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://hacking.com/demows"
+    targetNamespace="http://hacking.com/demows" elementFormDefault="qualified">
+
+    <xs:element name="getBalancesRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="user" type="xs:string"/>
+                <xs:element name="pass" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="getBalancesResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="balances" maxOccurs="unbounded" type="tns:balance"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="balance">
+        <xs:sequence>
+            <xs:element name="accountName" type="xs:string"/>
+            <xs:element name="accountNumber" type="xs:string"/>
+            <xs:element name="amount" type="xs:decimal"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="withdrawRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="user" type="xs:string"/>
+                <xs:element name="pass" type="xs:string"/>
+                <xs:element name="account" type="xs:string"/>
+                <xs:element name="amount" type="xs:decimal"/>
+                <xs:element name="passAccount" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="withdrawResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="result" type="xs:boolean"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="depositRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="user" type="xs:string"/>
+                <xs:element name="pass" type="xs:string"/>
+                <xs:element name="account" type="xs:string"/>
+                <xs:element name="amount" type="xs:decimal"/>
+                <xs:element name="passAccount" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="depositResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="result" type="xs:boolean"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="transferRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="user" type="xs:string"/>
+                <xs:element name="pass" type="xs:string"/>
+                <xs:element name="accountFrom" type="xs:string"/>
+                <xs:element name="accountTo" type="xs:string"/>
+                <xs:element name="amount" type="xs:decimal"/>
+                <xs:element name="passAccount" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="transferResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="result" type="xs:boolean"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

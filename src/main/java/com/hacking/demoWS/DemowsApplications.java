@@ -1,13 +1,13 @@
-package com.hacking.demoWS;
+package com.hacking.demows;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DemoWsApplication {
+public class DemowsApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoWsApplication.class, args);
+		SpringApplication.run(DemowsApplication.class, args);
 	}
 
 }

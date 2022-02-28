@@ -1,10 +1,10 @@
-package com.hacking.demoWS;
+package com.hacking.demows;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DemoWsApplicationTests {
+class DemowsApplicationTests {
 
 	@Test
 	void contextLoads() {
