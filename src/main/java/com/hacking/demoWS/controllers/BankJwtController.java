@@ -89,11 +89,13 @@ public class BankJwtController {
         return userDAO.getUser(username);
     }
 
-    @GetMapping("/balances")
-    List<Account> getBalances() {
+    @GetMapping("/balances/{userId}")
+    List<Account> getBalances(@PathVariable int userId) {
         init();
         List<Account> list = new ArrayList<Account>();
-        list = accountDAO.list(getUser());
+        User user = new User();
+        user.setId(userId);
+        list = accountDAO.list(user);
         return list;
     }
 
@@ -104,7 +106,7 @@ public class BankJwtController {
     ) {
         init();
         Account result  = null;        
-        Account account = accountDAO.getAccount(getUser(), accountNumber);
+        Account account = accountDAO.getAccount(null, accountNumber);
         if(account == null){
             throwError(HttpStatus.NOT_FOUND, "Cuenta no encontrada");
         }
@@ -170,7 +172,7 @@ public class BankJwtController {
         init();
         String jwtToken = Utils.getToken(header);
         User user = getUser();
-        userDAO.removeToken(user, jwtToken);
+        //userDAO.removeToken(user, jwtToken);
         LogoutResponse result = new LogoutResponse("ok");
         return result;
     }
