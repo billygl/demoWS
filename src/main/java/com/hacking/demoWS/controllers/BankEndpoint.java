@@ -1,8 +1,18 @@
-package com.hacking.demows;
+package com.hacking.demows.controllers;
 
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.hacking.demows.Balance;
+import com.hacking.demows.DepositRequest;
+import com.hacking.demows.DepositResponse;
+import com.hacking.demows.GetBalancesRequest;
+import com.hacking.demows.GetBalancesResponse;
+import com.hacking.demows.ServiceStatus;
+import com.hacking.demows.TransferRequest;
+import com.hacking.demows.TransferResponse;
+import com.hacking.demows.WithdrawRequest;
+import com.hacking.demows.WithdrawResponse;
 import com.hacking.demows.dao.AccountDAO;
 import com.hacking.demows.dao.UserDAO;
 import com.hacking.demows.exception.ServiceFaultException;
