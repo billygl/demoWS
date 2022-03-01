@@ -9,10 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.hacking.demows.components.JwtTokenUtil;
+import com.hacking.demows.dao.UserDAO;
 import com.hacking.demows.services.HackingUserService;
 import com.hacking.demows.models.Utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,6 +34,19 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
 
+	@Value( "${hacking.datasource.url}" )
+    private String jdbcURL;
+    @Value( "${hacking.datasource.username}" )
+    private String jdbcUsername;
+    @Value( "${hacking.datasource.password}" )
+    private String jdbcPassword;
+
+	private UserDAO userDAO;
+
+    private void init(){
+        userDAO = new UserDAO(jdbcURL, jdbcUsername, jdbcPassword);
+    }
+
 	@Override
 	protected void doFilterInternal(
         HttpServletRequest request, HttpServletResponse response, 
@@ -47,6 +62,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 			jwtToken = requestTokenHeader.substring(7);
 			try {
 				username = jwtTokenUtil.getUsernameFromToken(jwtToken);
+				init();
+				if(!userDAO.validateToken(username, jwtToken)){
+					username = null;
+				}
 			} catch (IllegalArgumentException e) {
 				System.out.println("Unable to get JWT Token");
 			} catch (ExpiredJwtException e) {

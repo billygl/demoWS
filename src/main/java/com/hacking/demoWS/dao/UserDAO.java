@@ -47,6 +47,35 @@ public class UserDAO extends BaseDAO{
         return user;
     }
     
+    public boolean validateToken(String username, String jwtToken){
+        boolean result = false;
+        try{
+            //unsecured
+            String sql = "SELECT * FROM users ";
+                sql += "INNER JOIN tokens ON tokens.user_id = users.user_id ";
+                sql += "WHERE user = ? AND token = ?";
+            System.out.println(sql);
+            System.out.println(username);
+            System.out.println(jwtToken);
+            connect();        
+            PreparedStatement statement = jdbcConnection.prepareStatement(sql);
+            statement.setString(1, username);
+            statement.setString(2, jwtToken);
+            
+            ResultSet resultSet = statement.executeQuery();
+            
+            result = resultSet.next();
+            
+            resultSet.close();
+            statement.close();
+        
+        }catch(SQLException ex){
+            ex.printStackTrace();
+        }
+        
+        return result;
+    }
+    
     public User getUser(String _user){
         User user = null;
         try{
