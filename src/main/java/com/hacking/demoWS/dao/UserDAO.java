@@ -129,7 +129,7 @@ public class UserDAO extends BaseDAO{
         return users;
     }
 
-    public boolean addToken(String token, User user) throws SQLException {
+    public boolean addToken(String token, User user) {
         boolean result = false;
         try{
             String sql = "INSERT INTO tokens (token, user_id) VALUES (?, ?)";
