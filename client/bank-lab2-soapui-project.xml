@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="7a3ca335-59ba-4c8b-bac5-ae595694f178" activeEnvironment="Default" name="bank-lab2" resourceRoot="" soapui-version="5.7.0" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="f8b452c0-d200-4291-aec6-29659a5e92f3" wsaVersion="NONE" name="BankPortSoap11" type="wsdl" bindingName="{http://hacking.com/demows}BankPortSoap11" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/ws/bank.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/ws/bank.wsdl"><con:part><con:url>http://localhost:8080/ws/bank.wsdl</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="http://hacking.com/demows" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://hacking.com/demows" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://hacking.com/demows">
+  <wsdl:types>
+    <xs:schema elementFormDefault="qualified" targetNamespace="http://hacking.com/demows" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="getBalancesRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="user" type="xs:string"/>
+            <xs:element name="pass" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getBalancesResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="balances" type="tns:balance"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="balance">
+        <xs:sequence>
+          <xs:element name="accountName" type="xs:string"/>
+          <xs:element name="accountNumber" type="xs:string"/>
+          <xs:element name="amount" type="xs:decimal"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="withdrawRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="user" type="xs:string"/>
+            <xs:element name="pass" type="xs:string"/>
+            <xs:element name="account" type="xs:string"/>
+            <xs:element name="amount" type="xs:decimal"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="withdrawResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="result" type="xs:boolean"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="depositRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="user" type="xs:string"/>
+            <xs:element name="pass" type="xs:string"/>
+            <xs:element name="account" type="xs:string"/>
+            <xs:element name="amount" type="xs:decimal"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="depositResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="result" type="xs:boolean"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="transferRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="user" type="xs:string"/>
+            <xs:element name="pass" type="xs:string"/>
+            <xs:element name="accountFrom" type="xs:string"/>
+            <xs:element name="accountTo" type="xs:string"/>
+            <xs:element name="amount" type="xs:decimal"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="transferResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="result" type="xs:boolean"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="depositRequest">
+    <wsdl:part element="tns:depositRequest" name="depositRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getBalancesResponse">
+    <wsdl:part element="tns:getBalancesResponse" name="getBalancesResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="depositResponse">
+    <wsdl:part element="tns:depositResponse" name="depositResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="transferRequest">
+    <wsdl:part element="tns:transferRequest" name="transferRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="withdrawResponse">
+    <wsdl:part element="tns:withdrawResponse" name="withdrawResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="withdrawRequest">
+    <wsdl:part element="tns:withdrawRequest" name="withdrawRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="transferResponse">
+    <wsdl:part element="tns:transferResponse" name="transferResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getBalancesRequest">
+    <wsdl:part element="tns:getBalancesRequest" name="getBalancesRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="BankPort">
+    <wsdl:operation name="deposit">
+      <wsdl:input message="tns:depositRequest" name="depositRequest"></wsdl:input>
+      <wsdl:output message="tns:depositResponse" name="depositResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getBalances">
+      <wsdl:input message="tns:getBalancesRequest" name="getBalancesRequest"></wsdl:input>
+      <wsdl:output message="tns:getBalancesResponse" name="getBalancesResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="transfer">
+      <wsdl:input message="tns:transferRequest" name="transferRequest"></wsdl:input>
+      <wsdl:output message="tns:transferResponse" name="transferResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="withdraw">
+      <wsdl:input message="tns:withdrawRequest" name="withdrawRequest"></wsdl:input>
+      <wsdl:output message="tns:withdrawResponse" name="withdrawResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BankPortSoap11" type="tns:BankPort">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="deposit">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="depositRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="depositResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getBalances">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="getBalancesRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getBalancesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="transfer">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="transferRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="transferResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="withdraw">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="withdrawRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="withdrawResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="BankPortService">
+    <wsdl:port binding="tns:BankPortSoap11" name="BankPortSoap11">
+      <soap:address location="http://localhost:8080/ws"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8080/ws</con:endpoint></con:endpoints><con:operation id="d2aa0566-4b70-48e5-9022-56ac780bfc5d" isOneWay="false" action="" name="deposit" bindingOperationName="deposit" type="Request-Response" outputName="depositResponse" inputName="depositRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="a4dc6141-ce10-4fc2-ae55-22d81074959e" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/ws</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:dem="http://hacking.com/demows">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <dem:depositRequest>\r
+         <dem:account>19345654321013</dem:account>
+         <dem:amount>1</dem:amount>\r
+      </dem:depositRequest>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://hacking.com/demows/BankPort/depositRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="f040c5b9-3dd7-4eb9-8cb5-0694add608e0" isOneWay="false" action="" name="getBalances" bindingOperationName="getBalances" type="Request-Response" outputName="getBalancesResponse" inputName="getBalancesRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="67e34179-c8a3-4b1c-8fbe-549c52860ec7" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/ws</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:dem="http://hacking.com/demows">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <dem:getBalancesRequest>\r
+         <dem:user>user@mail.com</dem:user>\r
+      </dem:getBalancesRequest>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://hacking.com/demows/BankPort/getBalancesRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="942c98dd-a8e5-4c4a-bbf4-61f6a6d7d98f" isOneWay="false" action="" name="transfer" bindingOperationName="transfer" type="Request-Response" outputName="transferResponse" inputName="transferRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="26cca339-b1ac-4573-9ef8-aea7eb0db381" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/ws</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:dem="http://hacking.com/demows">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <dem:transferRequest>\r
+         <dem:accountFrom>19345654321013</dem:accountFrom>
+         <dem:accountTo>19345654321014</dem:accountTo>
+         <dem:amount>1</dem:amount>
+      </dem:transferRequest>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://hacking.com/demows/BankPort/transferRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="4a26fd32-7d7d-485b-855d-00367ed3dc44" isOneWay="false" action="" name="withdraw" bindingOperationName="withdraw" type="Request-Response" outputName="withdrawResponse" inputName="withdrawRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="ea3e583c-ad87-4421-b194-cbc23b583374" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/ws</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:dem="http://hacking.com/demows">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <dem:withdrawRequest>\r
+         <dem:account>19345654321013</dem:account>\r
+         <dem:amount>1</dem:amount>\r
+      </dem:withdrawRequest>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://hacking.com/demows/BankPort/withdrawRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/><con:sensitiveInformation/></con:soapui-project>
