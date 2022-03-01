@@ -33,7 +33,6 @@ public class HackingUserService implements UserDetailsService {
         User user = userDAO.getUser(username);
         if (user != null) {
             String hashedPass = (new BCryptPasswordEncoder()).encode(user.getPass());
-            System.out.println(hashedPass);
             return new org.springframework.security.core.userdetails.User(
                 user.getUser(), 
                 hashedPass, 
