@@ -6,7 +6,8 @@ public class Product {
     protected String description;
     protected float price;
     protected String imageURL;
- 
+    protected int userId;
+
     public Product() {
     }
  
@@ -71,6 +72,14 @@ public class Product {
  
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String toString() {

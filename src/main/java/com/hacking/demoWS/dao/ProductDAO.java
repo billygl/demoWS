@@ -92,15 +92,20 @@ public class ProductDAO extends BaseDAO {
         return listProduct;
     }
     
-    public boolean deleteProduct(Product product) {
+    public boolean deleteProduct(User user, Product product) {
         boolean rowDeleted = false;
         try {
-            String sql = "DELETE FROM products where product_id = ?";        
+            String sql = "DELETE FROM products where product_id = ?";
+            if(user != null){
+                sql += " and user_id = ?";
+            }
             connect();
             
             PreparedStatement statement = jdbcConnection.prepareStatement(sql);
             statement.setInt(1, product.getId());
-            
+            if(user != null){
+                statement.setInt(2, user.getId());
+            }
             rowDeleted = statement.executeUpdate() > 0;
             statement.close();
             disconnect();   
@@ -140,28 +145,34 @@ public class ProductDAO extends BaseDAO {
         return rowUpdated;
     }
     
-    public Product getProduct(int id) throws SQLException {
+    public Product getProduct(int id) {
         Product product = null;
-        String sql = "SELECT * FROM products WHERE product_id = ?";
-        
-        connect();
-        
-        PreparedStatement statement = jdbcConnection.prepareStatement(sql);
-        statement.setInt(1, id);
-        
-        ResultSet resultSet = statement.executeQuery();
-        
-        if (resultSet.next()) {
-            String title = resultSet.getString("title");
-            String description = resultSet.getString("description");
-            float price = resultSet.getFloat("price");
-            String imageURL = resultSet.getString("image_url");
+        try {
+            String sql = "SELECT * FROM products WHERE product_id = ?";
             
-            product = new Product(id, title, description, price, imageURL);
+            connect();
+            
+            PreparedStatement statement = jdbcConnection.prepareStatement(sql);
+            statement.setInt(1, id);
+            
+            ResultSet resultSet = statement.executeQuery();
+            
+            if (resultSet.next()) {
+                String title = resultSet.getString("title");
+                String description = resultSet.getString("description");
+                float price = resultSet.getFloat("price");
+                String imageURL = resultSet.getString("image_url");
+                int userId = resultSet.getInt("user_id");
+                
+                product = new Product(id, title, description, price, imageURL);
+                product.setUserId(userId);
+            }
+            
+            resultSet.close();
+            statement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        
-        resultSet.close();
-        statement.close();
         
         return product;
     }
