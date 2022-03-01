@@ -66,7 +66,7 @@ public class AccountDAO extends BaseDAO {
             connect();
             
             Statement statement = jdbcConnection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);            
+            ResultSet resultSet = statement.executeQuery(sql);
             
             if(resultSet.next()) {
                 int id = resultSet.getInt("account_id");
@@ -91,15 +91,17 @@ public class AccountDAO extends BaseDAO {
     public boolean setBalance(Account account, double balance){
         boolean result = false;
         try{   
-            String sql = "UPDATE accounts SET balance = ?";
-            sql += " WHERE account_id = ?";
+            //unsecured
+            String sql = "UPDATE accounts SET balance = " + balance;
+            sql += " WHERE account_id = " + account.getId();
             connect();
             
-            PreparedStatement statement = jdbcConnection.prepareStatement(sql);
+            Statement statement = jdbcConnection.createStatement();
+            /*PreparedStatement statement = jdbcConnection.prepareStatement(sql);
             statement.setDouble(1, balance);
-            statement.setInt(2, account.getId());
+            statement.setInt(2, account.getId());*/
             
-            result = statement.executeUpdate() > 0;
+            result = statement.executeUpdate(sql) > 0;
             statement.close();
             disconnect();
         }catch(SQLException ex){
