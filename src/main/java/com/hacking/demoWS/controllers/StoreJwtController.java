@@ -24,6 +24,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -76,7 +77,7 @@ public class StoreJwtController {
 	}
     
     @GetMapping("/products")
-	public List<Product> getProucts(){
+	public List<Product> getProducts(){
         init();
         return productDAO.listProductsByUser(getUser());
 	}
@@ -96,6 +97,23 @@ public class StoreJwtController {
         userDAO.removeToken(user, jwtToken);
         LogoutResponse result = new LogoutResponse("ok");
         return result;
+    }
+
+    @RequestMapping(value = "/products/{productId}", method = RequestMethod.PATCH)
+    com.hacking.demows.models.Product updateProduct(
+        @PathVariable int productId,
+        @RequestBody Product request
+    ) {
+        init();
+        Product product = new Product(
+            productId,
+            request.getTitle(),
+            request.getDescription(),
+            request.getPrice(),
+            request.getImageURL()
+        );
+        productDAO.updateProduct(product);
+        return product;
     }
 
 	private void authenticate(String username, String password) throws Exception {

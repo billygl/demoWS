@@ -106,29 +106,34 @@ public class ProductDAO extends BaseDAO {
         return rowDeleted;     
     }
     
-    public boolean updateProduct(Product product) throws SQLException {
-        String sql = "UPDATE products SET title = ?, description = ?, price = ?, image_url = ?";
-        if(product.getImageURL() == null){
-            sql = "UPDATE products SET title = ?, description = ?, price = ?";
+    public boolean updateProduct(Product product) {
+        boolean rowUpdated = false;
+        try {            
+            String sql = "UPDATE products SET title = ?, description = ?, price = ?, image_url = ?";
+            if(product.getImageURL() == null){
+                sql = "UPDATE products SET title = ?, description = ?, price = ?";
+            }
+            sql += " WHERE product_id = ?";
+            connect();
+            
+            PreparedStatement statement = jdbcConnection.prepareStatement(sql);
+            statement.setString(1, product.getTitle());
+            statement.setString(2, product.getDescription());
+            statement.setFloat(3, product.getPrice());
+            int p = 4;
+            if(product.getImageURL() != null){
+                statement.setString(p, product.getImageURL());
+                p++;
+            }
+            statement.setInt(p, product.getId());
+            
+            rowUpdated = statement.executeUpdate() > 0;
+            statement.close();
+            disconnect();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        sql += " WHERE product_id = ?";
-        connect();
-        
-        PreparedStatement statement = jdbcConnection.prepareStatement(sql);
-        statement.setString(1, product.getTitle());
-        statement.setString(2, product.getDescription());
-        statement.setFloat(3, product.getPrice());
-        int p = 4;
-        if(product.getImageURL() != null){
-            statement.setString(p, product.getImageURL());
-            p++;
-        }
-        statement.setInt(p, product.getId());
-        
-        boolean rowUpdated = statement.executeUpdate() > 0;
-        statement.close();
-        disconnect();
-        return rowUpdated;     
+        return rowUpdated;
     }
     
     public Product getProduct(int id) throws SQLException {

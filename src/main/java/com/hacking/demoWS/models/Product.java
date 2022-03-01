@@ -18,6 +18,9 @@ public class Product {
         this(title, description, price, imageURL);
         this.id = id;
     }
+    public Product(int id, String title, String description, float price) {
+        this(id, title, description, price, "");
+    }
 
     public Product(String title, String description, float price) {
         this(title, description, price, "");
