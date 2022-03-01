@@ -46,6 +46,37 @@ public class UserDAO extends BaseDAO{
         
         return user;
     }
+    
+    public User getUser(String _user){
+        User user = null;
+        try{
+            //unsecured
+            String sql = "SELECT * FROM users WHERE user = '" + _user + "'";
+            System.out.println(sql);
+            connect();        
+            PreparedStatement statement = jdbcConnection.prepareStatement(sql);
+            //statement.setString(1, _user);
+            //statement.setString(2, _password);
+            
+            ResultSet resultSet = statement.executeQuery();
+            
+            if (resultSet.next()) {
+                int id = resultSet.getInt("user_id");
+                String username = resultSet.getString("user");
+                String password = resultSet.getString("password");
+                String role = resultSet.getString("role");
+                user = new User(id, username, password, role);
+            }
+            
+            resultSet.close();
+            statement.close();
+        
+        }catch(SQLException ex){
+            ex.printStackTrace();
+        }
+        
+        return user;
+    }
 
     public List<User> listAllUsers() throws SQLException {
         List<User> users = new ArrayList<>();

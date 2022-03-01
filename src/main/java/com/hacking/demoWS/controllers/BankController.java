@@ -4,13 +4,11 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
-import com.hacking.demows.ServiceStatus;
 import com.hacking.demows.dao.AccountDAO;
 import com.hacking.demows.dao.UserDAO;
 import com.hacking.demows.dto.DepositRequest;
 import com.hacking.demows.dto.TransferRequest;
 import com.hacking.demows.dto.WithdrawRequest;
-import com.hacking.demows.exception.ServiceFaultException;
 import com.hacking.demows.models.Account;
 import com.hacking.demows.models.User;
 
