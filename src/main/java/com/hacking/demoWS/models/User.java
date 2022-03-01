@@ -10,6 +10,10 @@ public class User implements Serializable{
 	private String pass;
 	private String role;
 	
+	public User(){
+		
+	}
+		
 	public User(String user, String pass, String role){
 		setUser(user);
 		setPass(pass);
