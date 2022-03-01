@@ -76,10 +76,12 @@ public class StoreJwtController {
 		return ResponseEntity.ok(new JwtResponse(token));
 	}
     
-    @GetMapping("/products")
-	public List<Product> getProducts(){
+    @GetMapping("/products/{userId}")
+	public List<Product> getProducts(@PathVariable int userId){
         init();
-        return productDAO.listProductsByUser(getUser());
+        User user = new User();
+        user.setId(userId);
+        return productDAO.listProductsByUser(user);
 	}
 
     private User getUser(){
