@@ -9,10 +9,12 @@ import com.hacking.demows.dao.UserDAO;
 import com.hacking.demows.dto.DepositRequest;
 import com.hacking.demows.dto.JwtRequest;
 import com.hacking.demows.dto.JwtResponse;
+import com.hacking.demows.dto.LogoutResponse;
 import com.hacking.demows.dto.TransferRequest;
 import com.hacking.demows.dto.WithdrawRequest;
 import com.hacking.demows.models.Account;
 import com.hacking.demows.models.User;
+import com.hacking.demows.models.Utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,6 +31,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -74,6 +77,7 @@ public class BankJwtController {
         );
 
 		final String token = jwtTokenUtil.generateToken(user);
+        userDAO.addToken(token, user);
 
 		return ResponseEntity.ok(new JwtResponse(token));
 	}
@@ -158,6 +162,16 @@ public class BankJwtController {
             }
         }
 
+        return result;
+    }
+
+    @RequestMapping("/logout")
+    LogoutResponse logout(@RequestHeader (name="Authorization") String header) {
+        init();
+        String jwtToken = Utils.getToken(header);
+        User user = getUser();
+        userDAO.removeToken(user, jwtToken);
+        LogoutResponse result = new LogoutResponse("ok");
         return result;
     }
 

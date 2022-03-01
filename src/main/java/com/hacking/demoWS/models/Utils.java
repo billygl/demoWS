@@ -9,7 +9,7 @@ import java.util.Base64;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
-class Utils {
+public class Utils {
     public static String serialize(Serializable obj) throws Exception {
         ByteArrayOutputStream baos = new ByteArrayOutputStream(512);
         try (ObjectOutputStream out = new ObjectOutputStream(baos)) {
@@ -43,5 +43,13 @@ class Utils {
             }
         }
         return "";
+    }
+
+    public static String getToken(String requestTokenHeader){
+        if (requestTokenHeader != null &&
+            requestTokenHeader.startsWith("Bearer ")) {
+			return requestTokenHeader.substring(7);
+        }
+        return null;
     }
 }

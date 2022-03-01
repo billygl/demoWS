@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.hacking.demows.components.JwtTokenUtil;
 import com.hacking.demows.services.HackingUserService;
+import com.hacking.demows.models.Utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -41,7 +42,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 		String username = null;
 		String jwtToken = null;
 		
-        if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
+        jwtToken = Utils.getToken(requestTokenHeader);
+        if (jwtToken != null) {
 			jwtToken = requestTokenHeader.substring(7);
 			try {
 				username = jwtTokenUtil.getUsernameFromToken(jwtToken);

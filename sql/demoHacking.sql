@@ -42,6 +42,15 @@ CREATE TABLE `movements` (
   UNIQUE KEY `movement_id_UNIQUE` (`movement_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE `tokens` (
+  `token_id` int(11) NOT NULL AUTO_INCREMENT,  
+  `token` varchar(255) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`token_id`),
+  FOREIGN KEY (`user_id`) REFERENCES users(user_id),
+  UNIQUE KEY `token_id_UNIQUE` (`token_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 INSERT INTO users (user, password, role) VALUES ('admin@mail.com', '12345678', 'admin');
 INSERT INTO users (user, password, role) VALUES ('user@mail.com', '12345678', 'user');
 INSERT INTO accounts (balance, name, number, user_id) VALUES 

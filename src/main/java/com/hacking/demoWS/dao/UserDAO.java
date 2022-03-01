@@ -99,4 +99,42 @@ public class UserDAO extends BaseDAO{
         disconnect();
         return users;
     }
+
+    public boolean addToken(String token, User user) throws SQLException {
+        boolean result = false;
+        try{
+            String sql = "INSERT INTO tokens (token, user_id) VALUES (?, ?)";
+            connect();
+            
+            PreparedStatement statement = jdbcConnection.prepareStatement(sql);
+            statement.setString(1, token);
+            statement.setInt(2, user.getId());
+            
+            result = statement.executeUpdate() > 0;
+            statement.close();
+            disconnect();
+        }catch(SQLException ex){
+            ex.printStackTrace();
+        }
+        return result;
+    }
+
+    public boolean removeToken(User user, String jwtToken) {
+        boolean result = false;
+        try{
+            String sql = "DELETE FROM tokens where user_id = ? and token = ?";
+            connect();
+            
+            PreparedStatement statement = jdbcConnection.prepareStatement(sql);
+            statement.setInt(1, user.getId());
+            statement.setString(2, jwtToken);
+            
+            result = statement.executeUpdate() > 0;
+            statement.close();
+            disconnect();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return result;
+    }
 }
