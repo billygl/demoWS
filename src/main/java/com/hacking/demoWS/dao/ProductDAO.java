@@ -92,17 +92,21 @@ public class ProductDAO extends BaseDAO {
         return listProduct;
     }
     
-    public boolean deleteProduct(Product product) throws SQLException {
-        String sql = "DELETE FROM products where product_id = ?";
-        
-        connect();
-        
-        PreparedStatement statement = jdbcConnection.prepareStatement(sql);
-        statement.setInt(1, product.getId());
-        
-        boolean rowDeleted = statement.executeUpdate() > 0;
-        statement.close();
-        disconnect();
+    public boolean deleteProduct(Product product) {
+        boolean rowDeleted = false;
+        try {
+            String sql = "DELETE FROM products where product_id = ?";        
+            connect();
+            
+            PreparedStatement statement = jdbcConnection.prepareStatement(sql);
+            statement.setInt(1, product.getId());
+            
+            rowDeleted = statement.executeUpdate() > 0;
+            statement.close();
+            disconnect();   
+        } catch (Exception e) {
+            e.printStackTrace();
+        }        
         return rowDeleted;     
     }
     

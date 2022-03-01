@@ -115,6 +115,18 @@ public class StoreJwtController {
         productDAO.updateProduct(product);
         return product;
     }
+    
+    @RequestMapping(value = "/products/{productId}", method = RequestMethod.DELETE)
+    com.hacking.demows.models.Product deleteProduct(
+        @PathVariable int productId
+    ) {
+        init();
+        Product product = new Product(
+            productId
+        );
+        productDAO.deleteProduct(product);
+        return product;
+    }
 
 	private void authenticate(String username, String password) throws Exception {
 		try {
