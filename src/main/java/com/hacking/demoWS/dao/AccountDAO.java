@@ -1,5 +1,6 @@
 package com.hacking.demows.dao;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -50,5 +51,60 @@ public class AccountDAO extends BaseDAO {
             ex.printStackTrace();
         }        
         return list;
+    }
+    
+    public Account getAccount(User user, String number) {
+        Account account = null;
+        try{
+            //unsecured
+            String sql = "SELECT * FROM accounts WHERE number = '" + number + "'";
+            if(user != null){
+                sql += " and user_id = " + user.getId();
+            }
+            System.out.println(sql);
+            
+            connect();
+            
+            Statement statement = jdbcConnection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);            
+            
+            if(resultSet.next()) {
+                int id = resultSet.getInt("account_id");
+                double balance = resultSet.getDouble("balance");
+                String name = resultSet.getString("name");
+                
+                account = new Account(
+                    id, balance, name, number
+                );
+            }
+            
+            resultSet.close();
+            statement.close();
+            
+            disconnect();
+        }catch(SQLException ex){
+            ex.printStackTrace();
+        }        
+        return account;
+    }
+
+    public boolean setBalance(Account account, double balance){
+        boolean result = false;
+        try{   
+            String sql = "UPDATE accounts SET balance = ?";
+            sql += " WHERE account_id = ?";
+            connect();
+            
+            PreparedStatement statement = jdbcConnection.prepareStatement(sql);
+            statement.setDouble(1, balance);
+            statement.setInt(2, account.getId());
+            
+            result = statement.executeUpdate() > 0;
+            statement.close();
+            disconnect();
+        }catch(SQLException ex){
+
+        }
+        return result;     
     }
 }

@@ -68,4 +68,90 @@ public class BankEndpoint {
         }
 		return null;
 	}
+    
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "withdrawRequest")
+	@ResponsePayload
+	public WithdrawResponse withdraw(@RequestPayload WithdrawRequest request) {
+        init();
+        User user = userDAO.validateUser(request.getUser(), request.getPass());
+        if(user == null){
+            throwError("Error", "401", "Usuario o contraseña no válidos");
+        } else{
+            WithdrawResponse response = new WithdrawResponse();
+            boolean result = false;
+            Account account = accountDAO.getAccount(user, request.getAccount());
+            if(account == null){
+                throwError("Error", "404", "Cuenta no encontrada");
+            }
+            double newBalance = account.getBalance() - 
+                request.getAmount().doubleValue();
+            if(newBalance < 0){
+                throwError("Error", "400", "Monto solicitado mayor al saldo");
+            } else{
+                result = accountDAO.setBalance(account, newBalance);
+            }
+            response.setResult(result);
+            return response;
+        }
+		return null;
+	}
+    
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "depositRequest")
+	@ResponsePayload
+	public DepositResponse deposit(@RequestPayload DepositRequest request) {
+        init();
+        User user = userDAO.validateUser(request.getUser(), request.getPass());
+        if(user == null){
+            throwError("Error", "401", "Usuario o contraseña no válidos");
+        } else{
+            DepositResponse response = new DepositResponse();
+            boolean result = false;
+            Account account = accountDAO.getAccount(null, request.getAccount());
+            if(account == null){
+                throwError("Error", "404", "Cuenta no encontrada");
+            }
+            double newBalance = account.getBalance() +
+                request.getAmount().doubleValue();
+            result = accountDAO.setBalance(account, newBalance);
+            response.setResult(result);
+            return response;
+        }
+		return null;
+	}
+    
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "transferRequest")
+	@ResponsePayload
+	public TransferResponse transfer(@RequestPayload TransferRequest request) {
+        init();
+        User user = userDAO.validateUser(request.getUser(), request.getPass());
+        if(user == null){
+            throwError("Error", "401", "Usuario o contraseña no válidos");
+        } else{
+            TransferResponse response = new TransferResponse();
+            boolean result = false;
+            Account accountFrom = 
+                accountDAO.getAccount(user, request.getAccountFrom());
+            Account accountTo = 
+                accountDAO.getAccount(null, request.getAccountTo());
+            if(accountFrom == null){
+                throwError("Error", "404", "Cuenta origen no encontrada");
+            }
+            if(accountTo == null){
+                throwError("Error", "404", "Cuenta origen no destino");
+            }
+            double newBalanceFrom = accountFrom.getBalance() - 
+                request.getAmount().doubleValue();
+            double newBalanceTo = accountTo.getBalance() + 
+                request.getAmount().doubleValue();
+            if(newBalanceFrom < 0){
+                throwError("Error", "400", "Monto solicitado mayor al saldo");
+            } else{
+                result = accountDAO.setBalance(accountFrom, newBalanceFrom);
+                result = accountDAO.setBalance(accountTo, newBalanceTo);
+            }
+            response.setResult(result);
+            return response;
+        }
+		return null;
+	}
 }
