@@ -16,9 +16,11 @@ CREATE TABLE `products` (
   `description` TEXT NOT NULL,
   `price` float NOT NULL,
   `image_url` varchar(255) NULL,
+  `user_id` int(11) NOT NULL,
   PRIMARY KEY (`product_id`),
   UNIQUE KEY `product_id_UNIQUE` (`product_id`),
-  UNIQUE KEY `title_UNIQUE` (`title`)
+  UNIQUE KEY `title_UNIQUE` (`title`),
+  FOREIGN KEY (`user_id`) REFERENCES users(user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `accounts` (
@@ -53,6 +55,7 @@ CREATE TABLE `tokens` (
 
 INSERT INTO users (user, password, role) VALUES ('admin@mail.com', '12345678', 'admin');
 INSERT INTO users (user, password, role) VALUES ('user@mail.com', '12345678', 'user');
+INSERT INTO users (user, password, role) VALUES ('other@mail.com', '12345678', 'other');
 INSERT INTO accounts (balance, name, number, user_id) VALUES 
 (100, 'Ahorro Soles', '19345654321012', 1),
 (1000, 'Ahorro Soles', '19345654321013', 2),
@@ -66,8 +69,14 @@ INSERT INTO movements (amount, account_id, created_at) VALUES
 (3000, 2, '2022-02-26 09:00:00'),
 (7000, 2, '2022-02-27 09:00:00')
 ;
-INSERT INTO products (title, description, price, image_url) VALUES 
-('Echo Dot', 'Parlante Inteligente con Alexa', 140, NULL),
-('Kindle Paperwhite', 'Pantalla de 6.8 pulgadas', 420, NULL),
-('Apple iPad', 'iPad de 10.2 pulgadas', 1150, NULL)
+INSERT INTO products (title, description, price, image_url, user_id) VALUES 
+('Echo Dot', 'Parlante Inteligente con Alexa', 141, NULL, 1),
+('Echo Dot 2', 'Parlante Inteligente con Alexa', 142, NULL, 2),
+('Echo Dot 3', 'Parlante Inteligente con Alexa', 143, NULL, 3),
+('Kindle Paperwhite', 'Pantalla de 6.8 pulgadas', 421, NULL, 1),
+('Kindle Paperwhite 2', 'Pantalla de 6.8 pulgadas', 422, NULL, 2),
+('Kindle Paperwhite 3', 'Pantalla de 6.8 pulgadas', 423, NULL, 3),
+('Apple iPad', 'iPad de 10.2 pulgadas', 1151, NULL, 1),
+('Apple iPad 2', 'iPad de 10.2 pulgadas', 1152, NULL, 2),
+('Apple iPad 3', 'iPad de 10.2 pulgadas', 1153, NULL, 3)
 ;

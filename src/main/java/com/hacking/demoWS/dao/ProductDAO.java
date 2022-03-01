@@ -1,7 +1,5 @@
 package com.hacking.demows.dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hacking.demows.models.Product;
+import com.hacking.demows.models.User;
 
 public class ProductDAO extends BaseDAO {
     
@@ -59,6 +58,37 @@ public class ProductDAO extends BaseDAO {
         
         disconnect();
         
+        return listProduct;
+    }
+    
+    public List<Product> listProductsByUser(User user){
+        List<Product> listProduct = new ArrayList<>();        
+        try {
+            String sql = "SELECT * FROM products WHERE user_id = " +
+                user.getId();
+            connect();
+            
+            Statement statement = jdbcConnection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            
+            while (resultSet.next()) {
+                int id = resultSet.getInt("product_id");
+                String title = resultSet.getString("title");
+                String description = resultSet.getString("description");
+                float price = resultSet.getFloat("price");
+                String imageURL = resultSet.getString("image_url");
+                
+                Product product = new Product(id, title, description, price, imageURL);
+                listProduct.add(product);
+            }
+            
+            resultSet.close();
+            statement.close();
+            
+            disconnect();    
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return listProduct;
     }
     
