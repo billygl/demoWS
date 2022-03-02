@@ -58,11 +58,28 @@ CREATE TABLE `tokens` (
 INSERT INTO users (user, password, document_id, role) VALUES 
 ('admin@mail.com', '12345678', '91234567', 'admin'),
 ('user@mail.com', '12345678', '81234567', 'user'),
-('other@mail.com', '12345678', '71234567', 'other');
+('other@mail.com', '12345678', '71234567', 'other'),
+('other1@mail.com', '12345678', '71234567', 'other'),
+('other2@mail.com', '12345678', '61234567', 'other'),
+('other3@mail.com', '12345678', '51234567', 'other'),
+('other4@mail.com', '12345678', '41234567', 'other'),
+('other5@mail.com', '12345678', '31234567', 'other'),
+('other6@mail.com', '12345678', '21234567', 'other'),
+('other7@mail.com', '12345678', '11234567', 'other'),
+('other8@mail.com', '12345678', '01234567', 'other'),
+;
 INSERT INTO accounts (balance, name, number, user_id) VALUES 
 (100, 'Ahorro Soles', '19345654321012', 1),
 (1000, 'Ahorro Soles', '19345654321013', 2),
-(2000, 'Ahorro Soles', '19345654321014', 2)
+(2000, 'Ahorro Soles', '19345654321014', 3),
+(2000, 'Ahorro Soles', '19345654321014', 4),
+(2000, 'Ahorro Soles', '19345654321014', 5),
+(2000, 'Ahorro Soles', '19345654321014', 6),
+(2000, 'Ahorro Soles', '19345654321014', 7),
+(2000, 'Ahorro Soles', '19345654321014', 8),
+(2000, 'Ahorro Soles', '19345654321014', 9),
+(2000, 'Ahorro Soles', '19345654321014', 10),
+(2000, 'Ahorro Soles', '19345654321014', 11)
 ;
 INSERT INTO movements (amount, account_id, created_at) VALUES 
 (40, 1, '2022-02-24 09:00:00'),
