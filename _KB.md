@@ -1,5 +1,10 @@
 # mysql
 - https://stackoverflow.com/questions/11922323/java-sql-sqlexception-access-denied-for-user-rootlocalhost-using-password/52463043#52463043
+- https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-20-04
+- https://stackoverflow.com/questions/11922323/java-sql-sqlexception-access-denied-for-user-rootlocalhost-using-password
+
+# ubuntu
+- https://askubuntu.com/questions/38661/how-do-i-run-sh-scripts
 
 # jwt
 - https://jwt.io/
