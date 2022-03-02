@@ -61,18 +61,19 @@
   - Se cambiaron las queries de los DAO
   - Se tiene un ejemplo en ws/ getBalancesRequest
 
-# Laboratorio 04b:
---------------------
-- REST vulnerable a inyecciones SQL.
-  - usando como el ejercicio 1
-- Rama basada en Lab4
-
 # Laboratorio 05:
 --------------------
 - REST vulnerable a inyecciones SQL.
   - Se tiene un ejemplo en GET rest/balances
     - Authorization base64(user@mail.com:' OR '' = ')
 - Rama basada en Lab4
+
+# Laboratorio 05b:
+--------------------
+- REST vulnerable a inyecciones SQL.
+  - usando como el ejercicio 1
+- Rama basada en Lab5
+
 
 # Laboratorio 06:
 --------------------
