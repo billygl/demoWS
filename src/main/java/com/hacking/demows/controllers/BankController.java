@@ -102,7 +102,7 @@ public class BankController {
         if(user == null){
             throwError(HttpStatus.FORBIDDEN, "Usuario o contraseña no válidos");
         }else{
-            Account account = accountDAO.getAccount(user, accountNumber);
+            Account account = accountDAO.getAccount(null, accountNumber);
             if(account == null){
                 throwError(HttpStatus.NOT_FOUND, "Cuenta no encontrada");
             }
@@ -135,7 +135,7 @@ public class BankController {
         if(user == null){
             throwError(HttpStatus.FORBIDDEN, "Usuario o contraseña no válidos");
         }else{
-            Account account = accountDAO.getAccount(user, accountNumber);
+            Account account = accountDAO.getAccount(null, accountNumber);
             if(account == null){
                 throwError(HttpStatus.NOT_FOUND, "Cuenta no encontrada");
             }
@@ -165,7 +165,7 @@ public class BankController {
         if(user == null){
             throwError(HttpStatus.FORBIDDEN, "Usuario o contraseña no válidos");
         }else{
-            Account accountFrom = accountDAO.getAccount(user, accountNumberFrom);
+            Account accountFrom = accountDAO.getAccount(null, accountNumberFrom);
             Account accountTo = accountDAO.getAccount(null, accountNumberTo);
             if(accountFrom == null){
                 throwError(HttpStatus.NOT_FOUND, "Cuenta no encontrada");
