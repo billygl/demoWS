@@ -1,3 +1,6 @@
+# mysql
+- https://stackoverflow.com/questions/11922323/java-sql-sqlexception-access-denied-for-user-rootlocalhost-using-password/52463043#52463043
+
 # jwt
 - https://jwt.io/
 - versions
