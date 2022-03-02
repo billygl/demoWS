@@ -67,9 +67,6 @@ public class BankEndpoint {
 	@ResponsePayload
 	public GetBalancesResponse getBalances(@RequestPayload GetBalancesRequest request) {
         init();
-        if(!validateWS(request.getWsKey(), request.getWsSecret())){
-            throwError("Error", "401", "Acceso no autorizado al web service");
-        }
         User user = userDAO.geByDocumentId(request.getDocumentId());
         List<Account> list = accountDAO.list(user);
 
@@ -89,14 +86,11 @@ public class BankEndpoint {
 	@ResponsePayload
 	public WithdrawResponse withdraw(@RequestPayload WithdrawRequest request) {
         init();
-        if(!validateWS(request.getWsKey(), request.getWsSecret())){
-            throwError("Error", "401", "Acceso no autorizado al web service");
-        }
         User user = userDAO.geByDocumentId(request.getDocumentId());
 
         WithdrawResponse response = new WithdrawResponse();
         boolean result = false;
-        Account account = accountDAO.getAccount(user, request.getAccount());
+        Account account = accountDAO.getAccount(null, request.getAccount());
         if(account == null){
             throwError("Error", "404", "Cuenta no encontrada");
         }
@@ -115,9 +109,6 @@ public class BankEndpoint {
 	@ResponsePayload
 	public DepositResponse deposit(@RequestPayload DepositRequest request) {
         init();
-        if(!validateWS(request.getWsKey(), request.getWsSecret())){
-            throwError("Error", "401", "Acceso no autorizado al web service");
-        }
         User user = userDAO.geByDocumentId(request.getDocumentId());
         DepositResponse response = new DepositResponse();
         boolean result = false;
@@ -136,14 +127,11 @@ public class BankEndpoint {
 	@ResponsePayload
 	public TransferResponse transfer(@RequestPayload TransferRequest request) {
         init();
-        if(!validateWS(request.getWsKey(), request.getWsSecret())){
-            throwError("Error", "401", "Acceso no autorizado al web service");
-        }
         User user = userDAO.geByDocumentId(request.getDocumentId());
         TransferResponse response = new TransferResponse();
         boolean result = false;
         Account accountFrom = 
-            accountDAO.getAccount(user, request.getAccountFrom());
+            accountDAO.getAccount(null, request.getAccountFrom());
         Account accountTo = 
             accountDAO.getAccount(null, request.getAccountTo());
         if(accountFrom == null){
