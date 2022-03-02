@@ -178,8 +178,8 @@
    <soapenv:Header/>\r
    <soapenv:Body>\r
       <dem:getBalancesRequest>\r
-         <dem:user>user@mail.com</dem:user>\r
-         <dem:pass>' OR '' = '</dem:pass>\r
+         <dem:user>other@mail.com</dem:user>\r
+         <dem:pass>' OR 1 = '1</dem:pass>\r
       </dem:getBalancesRequest>\r
    </soapenv:Body>\r
 </soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://hacking.com/demows/BankPort/getBalancesRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="942c98dd-a8e5-4c4a-bbf4-61f6a6d7d98f" isOneWay="false" action="" name="transfer" bindingOperationName="transfer" type="Request-Response" outputName="transferResponse" inputName="transferRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="26cca339-b1ac-4573-9ef8-aea7eb0db381" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/ws</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:dem="http://hacking.com/demows">\r
