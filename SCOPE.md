@@ -9,12 +9,16 @@
     - ws/ depositRequest
   - Método: Transferir dinero
     - ws/ transferRequest
-
+- Se necesita agregar una cabecera para el cliente del app.
+  
 - Autenticación: incluir usuario y password en un parámetro. 
   - Un único usuario para realizar todas las operaciones. Algo así:
 ````
-<user></user>
-<pass></pass
+<wsKey></wsKey>
+<wsSecret></wsSecret>
+
+<documentId></documentId>
+<pass></pass>
 
 <cuenta_origen></cuenta_destino>
 <pass_cuenta></pass_cuenta>
@@ -55,6 +59,12 @@
 - SOAP vulnerable a inyecciones SQL.
   - Se cambiaron las queries de los DAO
   - Se tiene un ejemplo en ws/ getBalancesRequest
+
+# Laboratorio 04b:
+--------------------
+- REST vulnerable a inyecciones SQL.
+  - usando como el ejercicio 1
+- Rama basada en Lab4
 
 # Laboratorio 05:
 --------------------

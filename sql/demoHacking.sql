@@ -5,9 +5,11 @@ CREATE TABLE `users` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `user` varchar(128) NOT NULL,
   `password` varchar(128) NOT NULL COMMENT 'no hashing',
-  `role` varchar(128) NOT NULL COMMENT 'admin,user',
+  `document_id` varchar(50) NOT NULL,
+  `role` varchar(128) NOT NULL COMMENT 'admin,user,other',
   PRIMARY KEY (`user_id`),
-  UNIQUE KEY `user_id_UNIQUE` (`user_id`)
+  UNIQUE KEY `user_id_UNIQUE` (`user_id`),
+  UNIQUE KEY `document_id_UNIQUE` (`document_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `products` (
@@ -53,9 +55,10 @@ CREATE TABLE `tokens` (
   UNIQUE KEY `token_id_UNIQUE` (`token_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO users (user, password, role) VALUES ('admin@mail.com', '12345678', 'admin');
-INSERT INTO users (user, password, role) VALUES ('user@mail.com', '12345678', 'user');
-INSERT INTO users (user, password, role) VALUES ('other@mail.com', '12345678', 'other');
+INSERT INTO users (user, password, document_id, role) VALUES 
+('admin@mail.com', '12345678', '91234567', 'admin'),
+('user@mail.com', '12345678', '81234567', 'user'),
+('other@mail.com', '12345678', '71234567', 'other');
 INSERT INTO accounts (balance, name, number, user_id) VALUES 
 (100, 'Ahorro Soles', '19345654321012', 1),
 (1000, 'Ahorro Soles', '19345654321013', 2),

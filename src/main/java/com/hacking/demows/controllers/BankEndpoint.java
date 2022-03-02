@@ -38,6 +38,10 @@ public class BankEndpoint {
     private String jdbcUsername;
     @Value( "${hacking.datasource.password}" )
     private String jdbcPassword;
+    @Value( "${hacking.ws.key}" )
+    private String wsKey;
+    @Value( "${hacking.ws.secret}" )
+    private String wsSecret;
 
     public void init(){
         if(userDAO == null){
@@ -55,113 +59,110 @@ public class BankEndpoint {
         throw new ServiceFaultException(errorMessage, serviceStatus);
     }
 
+    private boolean validateWS(String key, String secret){
+        return wsKey.equals(key) && wsSecret.equals(secret);
+    }
+
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getBalancesRequest")
 	@ResponsePayload
 	public GetBalancesResponse getBalances(@RequestPayload GetBalancesRequest request) {
         init();
-        User user = userDAO.validateUser(request.getUser(), request.getPass());
-        if(user == null){
-            throwError("Error", "401", "Usuario o contraseña no válidos");
-        } else{
-            List<Account> list = accountDAO.list(user);
-
-            GetBalancesResponse response = new GetBalancesResponse();
-            List<Balance> balances = response.getBalances();
-            for (Account account : list) {
-                Balance balance = new Balance();
-                balance.setAccountName(account.getName());
-                balance.setAccountNumber(account.getNumber());
-                balance.setAmount(new BigDecimal(account.getBalance()));
-                balances.add(balance);
-            }
-            return response;
+        if(!validateWS(request.getWsKey(), request.getWsSecret())){
+            throwError("Error", "401", "Acceso no autorizado al web service");
         }
-		return null;
+        User user = userDAO.geByDocumentId(request.getDocumentId());
+        List<Account> list = accountDAO.list(user);
+
+        GetBalancesResponse response = new GetBalancesResponse();
+        List<Balance> balances = response.getBalances();
+        for (Account account : list) {
+            Balance balance = new Balance();
+            balance.setAccountName(account.getName());
+            balance.setAccountNumber(account.getNumber());
+            balance.setAmount(new BigDecimal(account.getBalance()));
+            balances.add(balance);
+        }
+        return response;
 	}
     
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "withdrawRequest")
 	@ResponsePayload
 	public WithdrawResponse withdraw(@RequestPayload WithdrawRequest request) {
         init();
-        User user = userDAO.validateUser(request.getUser(), request.getPass());
-        if(user == null){
-            throwError("Error", "401", "Usuario o contraseña no válidos");
-        } else{
-            WithdrawResponse response = new WithdrawResponse();
-            boolean result = false;
-            Account account = accountDAO.getAccount(user, request.getAccount());
-            if(account == null){
-                throwError("Error", "404", "Cuenta no encontrada");
-            }
-            double newBalance = account.getBalance() - 
-                request.getAmount().doubleValue();
-            if(newBalance < 0){
-                throwError("Error", "400", "Monto solicitado mayor al saldo");
-            } else{
-                result = accountDAO.setBalance(account, newBalance);
-            }
-            response.setResult(result);
-            return response;
+        if(!validateWS(request.getWsKey(), request.getWsSecret())){
+            throwError("Error", "401", "Acceso no autorizado al web service");
         }
-		return null;
+        User user = userDAO.geByDocumentId(request.getDocumentId());
+
+        WithdrawResponse response = new WithdrawResponse();
+        boolean result = false;
+        Account account = accountDAO.getAccount(user, request.getAccount());
+        if(account == null){
+            throwError("Error", "404", "Cuenta no encontrada");
+        }
+        double newBalance = account.getBalance() - 
+            request.getAmount().doubleValue();
+        if(newBalance < 0){
+            throwError("Error", "400", "Monto solicitado mayor al saldo");
+        } else{
+            result = accountDAO.setBalance(account, newBalance);
+        }
+        response.setResult(result);
+        return response;
 	}
     
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "depositRequest")
 	@ResponsePayload
 	public DepositResponse deposit(@RequestPayload DepositRequest request) {
         init();
-        User user = userDAO.validateUser(request.getUser(), request.getPass());
-        if(user == null){
-            throwError("Error", "401", "Usuario o contraseña no válidos");
-        } else{
-            DepositResponse response = new DepositResponse();
-            boolean result = false;
-            Account account = accountDAO.getAccount(null, request.getAccount());
-            if(account == null){
-                throwError("Error", "404", "Cuenta no encontrada");
-            }
-            double newBalance = account.getBalance() +
-                request.getAmount().doubleValue();
-            result = accountDAO.setBalance(account, newBalance);
-            response.setResult(result);
-            return response;
+        if(!validateWS(request.getWsKey(), request.getWsSecret())){
+            throwError("Error", "401", "Acceso no autorizado al web service");
         }
-		return null;
+        User user = userDAO.geByDocumentId(request.getDocumentId());
+        DepositResponse response = new DepositResponse();
+        boolean result = false;
+        Account account = accountDAO.getAccount(null, request.getAccount());
+        if(account == null){
+            throwError("Error", "404", "Cuenta no encontrada");
+        }
+        double newBalance = account.getBalance() +
+            request.getAmount().doubleValue();
+        result = accountDAO.setBalance(account, newBalance);
+        response.setResult(result);
+        return response;
 	}
     
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "transferRequest")
 	@ResponsePayload
 	public TransferResponse transfer(@RequestPayload TransferRequest request) {
         init();
-        User user = userDAO.validateUser(request.getUser(), request.getPass());
-        if(user == null){
-            throwError("Error", "401", "Usuario o contraseña no válidos");
-        } else{
-            TransferResponse response = new TransferResponse();
-            boolean result = false;
-            Account accountFrom = 
-                accountDAO.getAccount(user, request.getAccountFrom());
-            Account accountTo = 
-                accountDAO.getAccount(null, request.getAccountTo());
-            if(accountFrom == null){
-                throwError("Error", "404", "Cuenta origen no encontrada");
-            }
-            if(accountTo == null){
-                throwError("Error", "404", "Cuenta origen no destino");
-            }
-            double newBalanceFrom = accountFrom.getBalance() - 
-                request.getAmount().doubleValue();
-            double newBalanceTo = accountTo.getBalance() + 
-                request.getAmount().doubleValue();
-            if(newBalanceFrom < 0){
-                throwError("Error", "400", "Monto solicitado mayor al saldo");
-            } else{
-                result = accountDAO.setBalance(accountFrom, newBalanceFrom);
-                result = accountDAO.setBalance(accountTo, newBalanceTo);
-            }
-            response.setResult(result);
-            return response;
+        if(!validateWS(request.getWsKey(), request.getWsSecret())){
+            throwError("Error", "401", "Acceso no autorizado al web service");
         }
-		return null;
+        User user = userDAO.geByDocumentId(request.getDocumentId());
+        TransferResponse response = new TransferResponse();
+        boolean result = false;
+        Account accountFrom = 
+            accountDAO.getAccount(user, request.getAccountFrom());
+        Account accountTo = 
+            accountDAO.getAccount(null, request.getAccountTo());
+        if(accountFrom == null){
+            throwError("Error", "404", "Cuenta origen no encontrada");
+        }
+        if(accountTo == null){
+            throwError("Error", "404", "Cuenta origen no destino");
+        }
+        double newBalanceFrom = accountFrom.getBalance() - 
+            request.getAmount().doubleValue();
+        double newBalanceTo = accountTo.getBalance() + 
+            request.getAmount().doubleValue();
+        if(newBalanceFrom < 0){
+            throwError("Error", "400", "Monto solicitado mayor al saldo");
+        } else{
+            result = accountDAO.setBalance(accountFrom, newBalanceFrom);
+            result = accountDAO.setBalance(accountTo, newBalanceTo);
+        }
+        response.setResult(result);
+        return response;
 	}
 }
