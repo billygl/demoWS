@@ -126,6 +126,9 @@
   - Método: Logout (que no cierre el TOKEN y sea vulnerable)
     - GET /restjwt/logout
 
+# Laboratorio 08b
+- incluye password en JWt
+
 # Laboratorio 09: (muy parecido al 08)
 --------------------
 - Armar un Web Service en REST
