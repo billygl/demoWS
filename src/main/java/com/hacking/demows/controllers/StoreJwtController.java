@@ -121,10 +121,21 @@ public class StoreJwtController {
         @PathVariable int productId
     ) {
         init();
-        Product product = new Product(
-            productId
-        );
-        productDAO.deleteProduct(product);
+        User user = getUser();
+        Product product = productDAO.getProduct(productId);
+        if(product == null){
+            throwError(
+                HttpStatus.NOT_FOUND, 
+                "No se encuentra ese producto"
+            );
+        }else if(product.getUserId() == user.getId()){    
+            productDAO.deleteProduct(user, product);
+        }else{
+            throwError(
+                HttpStatus.FORBIDDEN, 
+                "No se puede eliminar un producto que no le pertenezca"
+            );
+        }
         return product;
     }
 
