@@ -45,6 +45,22 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 	public XsdSchema bankSchema() {
 		return new SimpleXsdSchema(new ClassPathResource("bank.xsd"));
 	}
+
+	@Bean(name = "bankjwt")
+	public DefaultWsdl11Definition bankjwtWsdl11Definition(XsdSchema bankjwtSchema) {
+		DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
+		wsdl11Definition.setPortTypeName("BankJWTPort");
+		wsdl11Definition.setLocationUri("/ws");
+		wsdl11Definition.setTargetNamespace("http://hacking.com/demows");
+		wsdl11Definition.setSchema(bankjwtSchema);
+		return wsdl11Definition;
+	}
+	
+	@Bean(name="bankjwtSchema")
+	public XsdSchema bankjwt() {
+		return new SimpleXsdSchema(new ClassPathResource("bankjwt.xsd"));
+	}
+
 	@Bean
 	public SoapFaultMappingExceptionResolver exceptionResolver() {
 		SoapFaultMappingExceptionResolver exceptionResolver = 
