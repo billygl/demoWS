@@ -62,9 +62,10 @@ public class BankController {
         throw new ResponseStatusException(statusCode, message);
     }
 
-    @GetMapping("/balances")
+    @GetMapping("/balances/{documentId}")
     List<Account> getBalances(
-        @RequestHeader("Authorization") String authorization
+        @RequestHeader("Authorization") String authorization,
+        @PathVariable String documentId
     ) {
         init();
         List<Account> list = new ArrayList<Account>();
@@ -72,7 +73,7 @@ public class BankController {
         if(user == null){
             throwError(HttpStatus.FORBIDDEN, "Usuario o contraseña no válidos");
         }else{
-            list = accountDAO.list(user);
+            list = accountDAO.listByDocumentId(documentId);
         }
         return list;
     }
