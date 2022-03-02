@@ -18,11 +18,17 @@
 - https://start.spring.io/
 
 ## web services - soap
+- https://spring.io/guides/gs/producing-web-service/
+  - https://docs.spring.io/spring-ws/sites/1.5/reference/html/why-contract-first.html
+- https://www.baeldung.com/spring-boot-soap-web-service
 - jaxb api has not been found
   - https://stackoverflow.com/questions/58270761/jdk11-spring-boot-jaxbexception-implementation-of-jaxb-api-has-not-been-fou/58271287#58271287
 - handling exception
   - https://www.javaspringclub.com/spring-soap-web-services-add-soap-fault-exception-handling-part-iii/
   - https://memorynotfound.com/spring-ws-add-detail-soapfault-exception-handling/
+- multiple wsdl
+  - https://stackoverflow.com/questions/44760877/produce-multiple-soap-web-services-in-spring
+  - https://stackoverflow.com/questions/49556552/spring-configure-two-endpoint-each-with-a-unique-wsdl-file
 
 ## xsd
 - https://stackoverflow.com/questions/7190572/targetnamespace-and-xmlns-without-prefix-what-is-the-difference/19833171#19833171
