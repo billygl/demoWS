@@ -116,7 +116,7 @@ public class BankJwtEndpoint {
             User user = userDAO.getUser(username);
             WithdrawResponse response = new WithdrawResponse();
             boolean result = false;
-            Account account = accountDAO.getAccount(user, request.getAccount());
+            Account account = accountDAO.getAccount(null, request.getAccount());
             if(account == null){
                 throwError("Error", "404", "Cuenta no encontrada");
             }
@@ -168,7 +168,7 @@ public class BankJwtEndpoint {
             TransferResponse response = new TransferResponse();
             boolean result = false;
             Account accountFrom = 
-                accountDAO.getAccount(user, request.getAccountFrom());
+                accountDAO.getAccount(null, request.getAccountFrom());
             Account accountTo = 
                 accountDAO.getAccount(null, request.getAccountTo());
             if(accountFrom == null){
