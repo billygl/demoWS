@@ -50,7 +50,8 @@
     - POST rest/deposit
   - Método: Transferir dinero
     - POST rest/transfer
-- Se usa Authorization header para user y pass usando Basic
+- Se usa headers
+  - X-API-Key: para el key de acceso al servicio web
   - Authorization: Basic BASE64(user:pass)
     - BASE64(user:pass) es la encodificación de user:passs
 
