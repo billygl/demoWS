@@ -74,14 +74,14 @@ INSERT INTO accounts (balance, name, number, user_id) VALUES
 (100, 'Ahorro Soles', '19345654321012', 1),
 (1000, 'Ahorro Soles', '19345654321013', 2),
 (2000, 'Ahorro Soles', '19345654321014', 3),
-(2000, 'Ahorro Soles', '19345654321014', 4),
-(2000, 'Ahorro Soles', '19345654321014', 5),
-(2000, 'Ahorro Soles', '19345654321014', 6),
-(2000, 'Ahorro Soles', '19345654321014', 7),
-(2000, 'Ahorro Soles', '19345654321014', 8),
-(2000, 'Ahorro Soles', '19345654321014', 9),
-(2000, 'Ahorro Soles', '19345654321014', 10),
-(2000, 'Ahorro Soles', '19345654321014', 11)
+(2000, 'Ahorro Soles', '19345654321015', 4),
+(2000, 'Ahorro Soles', '19345654321016', 5),
+(2000, 'Ahorro Soles', '19345654321017', 6),
+(2000, 'Ahorro Soles', '19345654321018', 7),
+(2000, 'Ahorro Soles', '19345654321019', 8),
+(2000, 'Ahorro Soles', '19345654321020', 9),
+(2000, 'Ahorro Soles', '19345654321021', 10),
+(2000, 'Ahorro Soles', '19345654321022', 11)
 ;
 INSERT INTO movements (amount, account_id, created_at) VALUES 
 (40, 1, '2022-02-24 09:00:00'),
