@@ -53,6 +53,42 @@ public class AccountDAO extends BaseDAO {
         return list;
     }
     
+    public List<Account> listByDocumentId(String documentId) {
+        List<Account> list = new ArrayList<>();
+        try{
+            //unsecured
+            String sql = "SELECT * FROM accounts " +
+                "INNER JOIN users ON users.user_id = accounts.user_id " +
+                "WHERE document_id = '" + documentId + "'";
+            System.out.println(sql);
+            
+            connect();
+            
+            Statement statement = jdbcConnection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            
+            while (resultSet.next()) {
+                int id = resultSet.getInt("account_id");
+                double balance = resultSet.getDouble("balance");
+                String name = resultSet.getString("name");
+                String number = resultSet.getString("number");
+                
+                Account account = new Account(
+                    id, balance, name, number
+                );
+                list.add(account);
+            }
+            
+            resultSet.close();
+            statement.close();
+            
+            disconnect();
+        }catch(SQLException ex){
+            ex.printStackTrace();
+        }        
+        return list;
+    }
+    
     public Account getAccount(User user, String number) {
         Account account = null;
         try{
