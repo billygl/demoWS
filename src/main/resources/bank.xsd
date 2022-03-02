@@ -4,8 +4,6 @@
     <xs:element name="getBalancesRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="wsKey" type="xs:string"/>
-                <xs:element name="wsSecret" type="xs:string"/>
                 <xs:element name="documentId" type="xs:string"/>
                 <xs:element name="pass" type="xs:string"/>
             </xs:sequence>
@@ -30,8 +28,6 @@
     <xs:element name="withdrawRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="wsKey" type="xs:string"/>
-                <xs:element name="wsSecret" type="xs:string"/>
                 <xs:element name="documentId" type="xs:string"/>
                 <xs:element name="pass" type="xs:string"/>
                 <xs:element name="account" type="xs:string"/>
@@ -51,8 +47,6 @@
     <xs:element name="depositRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="wsKey" type="xs:string"/>
-                <xs:element name="wsSecret" type="xs:string"/>
                 <xs:element name="documentId" type="xs:string"/>
                 <xs:element name="pass" type="xs:string"/>
                 <xs:element name="account" type="xs:string"/>
@@ -72,8 +66,6 @@
     <xs:element name="transferRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="wsKey" type="xs:string"/>
-                <xs:element name="wsSecret" type="xs:string"/>
                 <xs:element name="documentId" type="xs:string"/>
                 <xs:element name="pass" type="xs:string"/>
                 <xs:element name="accountFrom" type="xs:string"/>
