@@ -3,22 +3,26 @@ package com.hacking.demows.controllers;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.hacking.demows.AuthenticateRequest;
+import com.hacking.demows.AuthenticateResponse;
 import com.hacking.demows.Balance;
-import com.hacking.demows.DepositRequest;
+import com.hacking.demows.DepositJwtRequest;
 import com.hacking.demows.DepositResponse;
-import com.hacking.demows.GetBalancesRequest;
+import com.hacking.demows.GetBalancesJwtRequest;
 import com.hacking.demows.GetBalancesResponse;
 import com.hacking.demows.ServiceStatus;
-import com.hacking.demows.TransferRequest;
+import com.hacking.demows.TransferJwtRequest;
 import com.hacking.demows.TransferResponse;
-import com.hacking.demows.WithdrawRequest;
+import com.hacking.demows.WithdrawJwtRequest;
 import com.hacking.demows.WithdrawResponse;
+import com.hacking.demows.components.JwtTokenUtil;
 import com.hacking.demows.dao.AccountDAO;
 import com.hacking.demows.dao.UserDAO;
 import com.hacking.demows.exception.ServiceFaultException;
 import com.hacking.demows.models.Account;
 import com.hacking.demows.models.User;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
@@ -26,9 +30,12 @@ import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 @Endpoint
-public class BankEndpoint {
+public class BankJwtEndpoint {
     private static final String NAMESPACE_URI = "http://hacking.com/demows";
 
+    @Autowired
+	private JwtTokenUtil jwtTokenUtil;
+    
     private UserDAO userDAO;
     private AccountDAO accountDAO;
 
@@ -55,14 +62,33 @@ public class BankEndpoint {
         throw new ServiceFaultException(errorMessage, serviceStatus);
     }
 
-    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getBalancesRequest")
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "authenticateRequest")
 	@ResponsePayload
-	public GetBalancesResponse getBalances(@RequestPayload GetBalancesRequest request) {
+	public AuthenticateResponse authenticate(@RequestPayload AuthenticateRequest request) {
         init();
         User user = userDAO.validateUser(request.getUser(), request.getPass());
         if(user == null){
             throwError("Error", "401", "Usuario o contraseña no válidos");
         } else{
+            AuthenticateResponse response = new AuthenticateResponse();
+
+            String token = jwtTokenUtil.generateToken(user);
+            userDAO.addToken(token, user);
+            response.setToken(token);
+            return response;
+        }
+		return null;
+	}
+    
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getBalancesJwtRequest")
+	@ResponsePayload
+	public GetBalancesResponse getBalances(@RequestPayload GetBalancesJwtRequest request) {
+        init();
+        String username = jwtTokenUtil.getUsernameFromToken(request.getToken());
+        if(!userDAO.validateToken(username, request.getToken())){
+            throwError("Error", "401", "Token inválido");
+        } else{
+            User user = userDAO.getUser(username);
             List<Account> list = accountDAO.list(user);
 
             GetBalancesResponse response = new GetBalancesResponse();
@@ -79,14 +105,15 @@ public class BankEndpoint {
 		return null;
 	}
     
-    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "withdrawRequest")
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "withdrawJwtRequest")
 	@ResponsePayload
-	public WithdrawResponse withdraw(@RequestPayload WithdrawRequest request) {
+	public WithdrawResponse withdraw(@RequestPayload WithdrawJwtRequest request) {
         init();
-        User user = userDAO.validateUser(request.getUser(), request.getPass());
-        if(user == null){
-            throwError("Error", "401", "Usuario o contraseña no válidos");
+        String username = jwtTokenUtil.getUsernameFromToken(request.getToken());
+        if(!userDAO.validateToken(username, request.getToken())){
+            throwError("Error", "401", "Token inválido");
         } else{
+            User user = userDAO.getUser(username);
             WithdrawResponse response = new WithdrawResponse();
             boolean result = false;
             Account account = accountDAO.getAccount(user, request.getAccount());
@@ -106,13 +133,13 @@ public class BankEndpoint {
 		return null;
 	}
     
-    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "depositRequest")
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "depositJwtRequest")
 	@ResponsePayload
-	public DepositResponse deposit(@RequestPayload DepositRequest request) {
+	public DepositResponse deposit(@RequestPayload DepositJwtRequest request) {
         init();
-        User user = userDAO.validateUser(request.getUser(), request.getPass());
-        if(user == null){
-            throwError("Error", "401", "Usuario o contraseña no válidos");
+        String username = jwtTokenUtil.getUsernameFromToken(request.getToken());
+        if(!userDAO.validateToken(username, request.getToken())){
+            throwError("Error", "401", "Token inválido");
         } else{
             DepositResponse response = new DepositResponse();
             boolean result = false;
@@ -129,14 +156,15 @@ public class BankEndpoint {
 		return null;
 	}
     
-    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "transferRequest")
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "transferJwtRequest")
 	@ResponsePayload
-	public TransferResponse transfer(@RequestPayload TransferRequest request) {
+	public TransferResponse transfer(@RequestPayload TransferJwtRequest request) {
         init();
-        User user = userDAO.validateUser(request.getUser(), request.getPass());
-        if(user == null){
-            throwError("Error", "401", "Usuario o contraseña no válidos");
+        String username = jwtTokenUtil.getUsernameFromToken(request.getToken());
+        if(!userDAO.validateToken(username, request.getToken())){
+            throwError("Error", "401", "Token inválido");
         } else{
+            User user = userDAO.getUser(username);
             TransferResponse response = new TransferResponse();
             boolean result = false;
             Account accountFrom = 

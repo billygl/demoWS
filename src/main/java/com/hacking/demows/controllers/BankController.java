@@ -36,6 +36,11 @@ public class BankController {
     @Value( "${hacking.datasource.password}" )
     private String jdbcPassword;
 
+    @Value( "${hacking.ws.key}" )
+    private String wsKey;
+    @Value( "${hacking.ws.secret}" )
+    private String wsSecret;
+
     private void init(){
         userDAO = new UserDAO(jdbcURL, jdbcUsername, jdbcPassword);
         accountDAO = new AccountDAO(jdbcURL, jdbcUsername, jdbcPassword);
@@ -64,9 +69,13 @@ public class BankController {
 
     @GetMapping("/balances/{documentId}")
     List<Account> getBalances(
+        @RequestHeader("X-API-Key") String apiKey,
         @RequestHeader("Authorization") String authorization,
         @PathVariable String documentId
     ) {
+        if(!apiKey.equals(wsKey)){
+            throwError(HttpStatus.FORBIDDEN, "Acceso no autorizado al servicio");
+        }
         init();
         List<Account> list = new ArrayList<Account>();
         User user = getUserFrom(authorization);
@@ -80,11 +89,15 @@ public class BankController {
     
     @PostMapping("/withdraw/{accountNumber}")
     Account withdraw(
+        @RequestHeader("X-API-Key") String apiKey,
         @RequestHeader("Authorization") String authorization,
         @PathVariable String accountNumber,
         @RequestBody WithdrawRequest request
     ) {
         init();
+        if(!apiKey.equals(wsKey)){
+            throwError(HttpStatus.FORBIDDEN, "Acceso no autorizado al servicio");
+        }
         Account result  = null;
         User user = getUserFrom(authorization);
         if(user == null){
@@ -109,11 +122,15 @@ public class BankController {
     
     @PostMapping("/deposit/{accountNumber}")
     Account deposit(
+        @RequestHeader("X-API-Key") String apiKey,
         @RequestHeader("Authorization") String authorization,
         @PathVariable String accountNumber,
         @RequestBody DepositRequest request
     ) {
         init();
+        if(!apiKey.equals(wsKey)){
+            throwError(HttpStatus.FORBIDDEN, "Acceso no autorizado al servicio");
+        }
         Account result  = null;
         User user = getUserFrom(authorization);
         if(user == null){
@@ -134,12 +151,16 @@ public class BankController {
     
     @PostMapping("/transfer/{accountNumberFrom}/{accountNumberTo}")
     Account transfer(
+        @RequestHeader("X-API-Key") String apiKey,
         @RequestHeader("Authorization") String authorization,
         @PathVariable String accountNumberFrom,
         @PathVariable String accountNumberTo,
         @RequestBody TransferRequest request
     ) {
         init();
+        if(!apiKey.equals(wsKey)){
+            throwError(HttpStatus.FORBIDDEN, "Acceso no autorizado al servicio");
+        }
         Account result  = null;
         User user = getUserFrom(authorization);
         if(user == null){

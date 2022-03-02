@@ -1,0 +1,58 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://hacking.com/demows"
+    targetNamespace="http://hacking.com/demows" elementFormDefault="qualified">
+
+    <xs:element name="authenticateRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="user" type="xs:string"/>
+                <xs:element name="pass" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="authenticateResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="getBalancesJwtRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="withdrawJwtRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="token" type="xs:string"/>
+                <xs:element name="account" type="xs:string"/>
+                <xs:element name="amount" type="xs:decimal"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="depositJwtRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="token" type="xs:string"/>
+                <xs:element name="account" type="xs:string"/>
+                <xs:element name="amount" type="xs:decimal"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="transferJwtRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="token" type="xs:string"/>
+                <xs:element name="accountFrom" type="xs:string"/>
+                <xs:element name="accountTo" type="xs:string"/>
+                <xs:element name="amount" type="xs:decimal"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
