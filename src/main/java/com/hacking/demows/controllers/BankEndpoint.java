@@ -70,7 +70,10 @@ public class BankEndpoint {
         if(!validateWS(request.getWsKey(), request.getWsSecret())){
             throwError("Error", "401", "Acceso no autorizado al web service");
         }
-        User user = userDAO.geByDocumentId(request.getDocumentId());
+        User user = userDAO.validateDocumentId(request.getDocumentId(), request.getPass());
+        if(user == null){
+            throwError("Error", "401", "Usuario o contraseña no válidos");
+        }
         List<Account> list = accountDAO.list(user);
 
         GetBalancesResponse response = new GetBalancesResponse();
@@ -92,7 +95,10 @@ public class BankEndpoint {
         if(!validateWS(request.getWsKey(), request.getWsSecret())){
             throwError("Error", "401", "Acceso no autorizado al web service");
         }
-        User user = userDAO.geByDocumentId(request.getDocumentId());
+        User user = userDAO.validateDocumentId(request.getDocumentId(), request.getPass());
+        if(user == null){
+            throwError("Error", "401", "Usuario o contraseña no válidos");
+        }
 
         WithdrawResponse response = new WithdrawResponse();
         boolean result = false;
@@ -118,7 +124,10 @@ public class BankEndpoint {
         if(!validateWS(request.getWsKey(), request.getWsSecret())){
             throwError("Error", "401", "Acceso no autorizado al web service");
         }
-        User user = userDAO.geByDocumentId(request.getDocumentId());
+        User user = userDAO.validateDocumentId(request.getDocumentId(), request.getPass());
+        if(user == null){
+            throwError("Error", "401", "Usuario o contraseña no válidos");
+        }
         DepositResponse response = new DepositResponse();
         boolean result = false;
         Account account = accountDAO.getAccount(null, request.getAccount());
@@ -139,7 +148,10 @@ public class BankEndpoint {
         if(!validateWS(request.getWsKey(), request.getWsSecret())){
             throwError("Error", "401", "Acceso no autorizado al web service");
         }
-        User user = userDAO.geByDocumentId(request.getDocumentId());
+        User user = userDAO.validateDocumentId(request.getDocumentId(), request.getPass());
+        if(user == null){
+            throwError("Error", "401", "Usuario o contraseña no válidos");
+        }
         TransferResponse response = new TransferResponse();
         boolean result = false;
         Account accountFrom = 
