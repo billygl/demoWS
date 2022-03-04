@@ -67,7 +67,10 @@ public class BankEndpoint {
 	@ResponsePayload
 	public GetBalancesResponse getBalances(@RequestPayload GetBalancesRequest request) {
         init();
-        User user = userDAO.geByDocumentId(request.getDocumentId());
+        User user = userDAO.validateDocumentId(request.getDocumentId(), request.getPass());
+        if(user == null){
+            throwError("Error", "401", "Usuario o contraseña no válidos");
+        }
         List<Account> list = accountDAO.list(user);
 
         GetBalancesResponse response = new GetBalancesResponse();
@@ -86,7 +89,10 @@ public class BankEndpoint {
 	@ResponsePayload
 	public WithdrawResponse withdraw(@RequestPayload WithdrawRequest request) {
         init();
-        User user = userDAO.geByDocumentId(request.getDocumentId());
+        User user = userDAO.validateDocumentId(request.getDocumentId(), request.getPass());
+        if(user == null){
+            throwError("Error", "401", "Usuario o contraseña no válidos");
+        }
 
         WithdrawResponse response = new WithdrawResponse();
         boolean result = false;
@@ -109,7 +115,10 @@ public class BankEndpoint {
 	@ResponsePayload
 	public DepositResponse deposit(@RequestPayload DepositRequest request) {
         init();
-        User user = userDAO.geByDocumentId(request.getDocumentId());
+        User user = userDAO.validateDocumentId(request.getDocumentId(), request.getPass());
+        if(user == null){
+            throwError("Error", "401", "Usuario o contraseña no válidos");
+        }
         DepositResponse response = new DepositResponse();
         boolean result = false;
         Account account = accountDAO.getAccount(null, request.getAccount());
@@ -127,7 +136,10 @@ public class BankEndpoint {
 	@ResponsePayload
 	public TransferResponse transfer(@RequestPayload TransferRequest request) {
         init();
-        User user = userDAO.geByDocumentId(request.getDocumentId());
+        User user = userDAO.validateDocumentId(request.getDocumentId(), request.getPass());
+        if(user == null){
+            throwError("Error", "401", "Usuario o contraseña no válidos");
+        }
         TransferResponse response = new TransferResponse();
         boolean result = false;
         Account accountFrom = 
