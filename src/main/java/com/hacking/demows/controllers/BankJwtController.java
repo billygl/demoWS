@@ -160,7 +160,7 @@ public class BankJwtController {
         TransferResponse result  = new TransferResponse();
         Account account = accountDAO.getAccount(getUser(), accountNumber);
         if(account == null){
-            throwError(HttpStatus.NOT_FOUND, "Cuenta no encontrada");
+            throwError(HttpStatus.NOT_FOUND, "Cuenta no encontrada o no le pertenece al usuario");
         }
         double newBalance = account.getBalance() - request.getAmount();
         if(newBalance < 0){
