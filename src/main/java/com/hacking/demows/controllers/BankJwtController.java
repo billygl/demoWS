@@ -1,14 +1,12 @@
 package com.hacking.demows.controllers;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.hacking.demows.dto.TransferResponse;
-import com.hacking.demows.adapters.ITextAdapter;
 import com.hacking.demows.components.JwtTokenUtil;
 import com.hacking.demows.dao.AccountDAO;
+import com.hacking.demows.dao.MovementDAO;
 import com.hacking.demows.dao.UserDAO;
 import com.hacking.demows.dto.AccountResponse;
 import com.hacking.demows.dto.AccountResponseAccount;
@@ -20,6 +18,7 @@ import com.hacking.demows.dto.LogoutResponse;
 import com.hacking.demows.dto.TransferRequest;
 import com.hacking.demows.dto.WithdrawRequest;
 import com.hacking.demows.models.Account;
+import com.hacking.demows.models.Movement;
 import com.hacking.demows.models.User;
 import com.hacking.demows.models.Utils;
 
@@ -50,6 +49,7 @@ import org.springframework.web.server.ResponseStatusException;
 public class BankJwtController {
     private UserDAO userDAO;
     private AccountDAO accountDAO;
+    private MovementDAO movementDAO;
     
     @Autowired
 	private AuthenticationManager authenticationManager;
@@ -67,6 +67,7 @@ public class BankJwtController {
     private void init(){
         userDAO = new UserDAO(jdbcURL, jdbcUsername, jdbcPassword);
         accountDAO = new AccountDAO(jdbcURL, jdbcUsername, jdbcPassword);
+        movementDAO = new MovementDAO(jdbcURL, jdbcUsername, jdbcPassword);
     }
 
     private User getUserByRequest(String userpass){
@@ -118,12 +119,13 @@ public class BankJwtController {
         return list;
     }
     
-    @GetMapping("/pdf")
-    Map<String, String> getPdf() {
+    @GetMapping("/movement/{id}")
+    Movement getPdf(@PathVariable Long id) {
         init();
-        Map<String, String> result = new HashMap<String, String>();
-        result.put("pdf", ITextAdapter.getPDF(null));
-        return result;
+        /*Map<String, String> result = new HashMap<String, String>();
+        id
+        result.put("pdf", ITextAdapter.getPDF(null));*/
+        return movementDAO.getMovement(null, id);
     }
 
     @PostMapping("/withdraw/{accountNumber}")
@@ -144,7 +146,7 @@ public class BankJwtController {
             if(accountDAO.setBalance(account, newBalance)){
                 result.setSuccess(true);
                 result.setMovement(
-                    accountDAO.transfer(account, null, request.getAmount())
+                    movementDAO.transfer(account, null, request.getAmount())
                 );
             }
         }
@@ -166,7 +168,7 @@ public class BankJwtController {
         if(accountDAO.setBalance(account, newBalance)){
             result.setSuccess(true);
             result.setMovement(
-                accountDAO.transfer(null, account, request.getAmount())
+                movementDAO.transfer(null, account, request.getAmount())
             );
         }
         return result;
@@ -195,7 +197,7 @@ public class BankJwtController {
                 accountDAO.setBalance(accountTo, newBalanceTo)){
                 result.setSuccess(true);
                 result.setMovement(
-                    accountDAO.transfer(
+                    movementDAO.transfer(
                         accountFrom, accountTo, request.getAmount()
                     )
                 );
@@ -249,7 +251,7 @@ public class BankJwtController {
                 accountDAO.setBalance(accountTo, newBalanceTo)){
                 result.setSuccess(true);
                 result.setMovement(
-                    accountDAO.transfer(
+                    movementDAO.transfer(
                         accountFrom, accountTo, amount
                     )
                 );
