@@ -105,7 +105,7 @@ public class AccountDAO extends BaseDAO {
             ResultSet resultSet = statement.executeQuery(sql);            
             
             if(resultSet.next()) {
-                int id = resultSet.getInt("account_id");
+                long id = resultSet.getLong("account_id");
                 double balance = resultSet.getDouble("balance");
                 String name = resultSet.getString("name");
                 
@@ -133,13 +133,54 @@ public class AccountDAO extends BaseDAO {
             
             PreparedStatement statement = jdbcConnection.prepareStatement(sql);
             statement.setDouble(1, balance);
-            statement.setInt(2, account.getId());
+            statement.setLong(2, account.getId());
             
             result = statement.executeUpdate() > 0;
             statement.close();
             disconnect();
         }catch(SQLException ex){
 
+        }
+        return result;     
+    }
+    
+    public boolean transfer(Account accountFrom, Account accountTo,
+        double amount){
+        boolean result = false;
+        try{
+            connect();
+            String sql = "INSERT INTO movements (amount";
+            if(accountFrom != null){
+                sql += ", account_id_from, account_from";
+            }
+            if(accountTo != null){
+                sql += ", account_id_to, account_to";
+            }
+            sql += ", created_at) VALUES (?";
+            if(accountFrom != null){
+                sql += ", ?, ?";
+            }
+            if(accountTo != null){
+                sql += ", ?, ?";
+            }
+            sql += ", NOW())";
+            PreparedStatement statement = jdbcConnection.prepareStatement(sql);
+            statement.setDouble(1, amount);
+            int column = 2;
+            if(accountFrom != null){
+                statement.setLong(column++, accountFrom.getId());
+                statement.setString(column++, accountFrom.getNumber());
+            }
+            if(accountTo != null){
+                statement.setLong(column++, accountTo.getId());
+                statement.setString(column++, accountTo.getNumber());
+            }
+            System.out.println(sql);
+            result = statement.executeUpdate() > 0;
+            statement.close();
+            disconnect();
+        }catch(SQLException ex){
+            
         }
         return result;     
     }

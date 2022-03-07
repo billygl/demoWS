@@ -1,7 +1,7 @@
 -- DROP DATABASE demoHacking;
 
-CREATE DATABASE demoHacking;
-USE demoHacking;
+CREATE DATABASE demoHacking2;
+USE demoHacking2;
 
 CREATE TABLE `users` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -28,7 +28,8 @@ CREATE TABLE `products` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `accounts` (
-  `account_id` int(11) NOT NULL AUTO_INCREMENT,
+  `account_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `type` tinyint(1) DEFAULT 0 COMMENT '0: debit, 1: credit',
   `balance` float NOT NULL,
   `name` varchar(255) NOT NULL,
   `number` varchar(255) NOT NULL,
@@ -36,17 +37,24 @@ CREATE TABLE `accounts` (
   PRIMARY KEY (`account_id`),
   FOREIGN KEY (`user_id`) REFERENCES users(user_id),
   UNIQUE KEY `account_id_UNIQUE` (`account_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) AUTO_INCREMENT=2036854775808
+ENGINE=InnoDB DEFAULT CHARSET=latin1
+;
 
 CREATE TABLE `movements` (
-  `movement_id` int(11) NOT NULL AUTO_INCREMENT,
+  `movement_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `amount` float NOT NULL COMMENT 'positive and negative values',
-  `account_id` int(11) NOT NULL,
+  `account_id_from` bigint(20) NULL,
+  `account_id_to` bigint(20) NULL,
+  `account_from` varchar(255) NULL,
+  `account_to` varchar(255) NULL,
   `created_at` timestamp NOT NULL,
   PRIMARY KEY (`movement_id`),
-  FOREIGN KEY (`account_id`) REFERENCES accounts(account_id),
+  FOREIGN KEY (`account_id_from`) REFERENCES accounts(account_id),
+  FOREIGN KEY (`account_id_to`) REFERENCES accounts(account_id),
   UNIQUE KEY `movement_id_UNIQUE` (`movement_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) AUTO_INCREMENT=2036854775808
+ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `tokens` (
   `token_id` int(11) NOT NULL AUTO_INCREMENT,  
@@ -83,13 +91,13 @@ INSERT INTO accounts (balance, name, number, user_id) VALUES
 (2000, 'Ahorro Soles', '19345654321021', 10),
 (2000, 'Ahorro Soles', '19345654321022', 11)
 ;
-INSERT INTO movements (amount, account_id, created_at) VALUES 
-(40, 1, '2022-02-24 09:00:00'),
-(60, 1, '2022-02-25 09:00:00'),
-(300, 2, '2022-02-26 09:00:00'),
-(700, 2, '2022-02-27 09:00:00'),
-(3000, 2, '2022-02-26 09:00:00'),
-(7000, 2, '2022-02-27 09:00:00')
+INSERT INTO movements (amount, account_id_to, created_at) VALUES 
+(40, 2036854775808, '2022-02-24 09:00:00'),
+(60, 2036854775808, '2022-02-25 09:00:00'),
+(300, 2036854775809, '2022-02-26 09:00:00'),
+(700, 2036854775809, '2022-02-27 09:00:00'),
+(3000, 2036854775809, '2022-02-26 09:00:00'),
+(7000, 2036854775809, '2022-02-27 09:00:00')
 ;
 INSERT INTO products (title, description, price, image_url, user_id) VALUES 
 ('Echo Dot', 'Parlante Inteligente con Alexa', 141, NULL, 1),

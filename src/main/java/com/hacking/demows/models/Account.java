@@ -1,23 +1,23 @@
 package com.hacking.demows.models;
 
 public class Account {
-    protected int id;
+    protected long id;
     protected double balance;
     protected String name;
     protected String number;
     
-    public Account(int id, double balance, String name, String number) {
+    public Account(long id, double balance, String name, String number) {
         this.id = id;
         this.balance = balance;
         this.name = name;
         this.number = number;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
