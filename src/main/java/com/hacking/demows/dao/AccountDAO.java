@@ -8,10 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hacking.demows.models.Account;
-import com.hacking.demows.models.Movement;
 import com.hacking.demows.models.User;
-
-
 
 public class AccountDAO extends BaseDAO {
     
@@ -181,55 +178,6 @@ public class AccountDAO extends BaseDAO {
             disconnect();
         }catch(SQLException ex){
 
-        }
-        return result;     
-    }
-    
-    public Movement transfer(Account accountFrom, Account accountTo,
-        double amount){
-        Movement result = null;
-        try{
-            connect();
-            String sql = "INSERT INTO movements (amount";
-            if(accountFrom != null){
-                sql += ", account_id_from, account_from";
-            }
-            if(accountTo != null){
-                sql += ", account_id_to, account_to";
-            }
-            sql += ", created_at) VALUES (?";
-            if(accountFrom != null){
-                sql += ", ?, ?";
-            }
-            if(accountTo != null){
-                sql += ", ?, ?";
-            }
-            sql += ", NOW())";
-            PreparedStatement statement = jdbcConnection.prepareStatement(
-                sql, Statement.RETURN_GENERATED_KEYS
-            );
-            statement.setDouble(1, amount);
-            int column = 2;
-            if(accountFrom != null){
-                statement.setLong(column++, accountFrom.getId());
-                statement.setString(column++, accountFrom.getNumber());
-            }
-            if(accountTo != null){
-                statement.setLong(column++, accountTo.getId());
-                statement.setString(column++, accountTo.getNumber());
-            }
-            System.out.println(sql);
-            statement.executeUpdate();
-            ResultSet resultSet = statement.getGeneratedKeys();
-            if(resultSet.next()) {
-                long id = resultSet.getLong(1);
-                result = new Movement(id);
-            }            
-            resultSet.close();
-            statement.close();
-            disconnect();
-        }catch(SQLException ex){
-            ex.printStackTrace();
         }
         return result;     
     }
