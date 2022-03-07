@@ -32,7 +32,7 @@ public class AccountDAO extends BaseDAO {
             ResultSet resultSet = statement.executeQuery(sql);
             
             while (resultSet.next()) {
-                int id = resultSet.getInt("account_id");
+                long id = resultSet.getLong("account_id");
                 double balance = resultSet.getDouble("balance");
                 String name = resultSet.getString("name");
                 String number = resultSet.getString("number");
@@ -68,7 +68,7 @@ public class AccountDAO extends BaseDAO {
             ResultSet resultSet = statement.executeQuery(sql);
             
             while (resultSet.next()) {
-                int id = resultSet.getInt("account_id");
+                long id = resultSet.getLong("account_id");
                 double balance = resultSet.getDouble("balance");
                 String name = resultSet.getString("name");
                 String number = resultSet.getString("number");
