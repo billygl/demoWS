@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hacking.demows.models.Account;
+import com.hacking.demows.models.Movement;
 import com.hacking.demows.models.User;
 
 
@@ -144,9 +145,9 @@ public class AccountDAO extends BaseDAO {
         return result;     
     }
     
-    public boolean transfer(Account accountFrom, Account accountTo,
+    public Movement transfer(Account accountFrom, Account accountTo,
         double amount){
-        boolean result = false;
+        Movement result = null;
         try{
             connect();
             String sql = "INSERT INTO movements (amount";
@@ -164,7 +165,9 @@ public class AccountDAO extends BaseDAO {
                 sql += ", ?, ?";
             }
             sql += ", NOW())";
-            PreparedStatement statement = jdbcConnection.prepareStatement(sql);
+            PreparedStatement statement = jdbcConnection.prepareStatement(
+                sql, Statement.RETURN_GENERATED_KEYS
+            );
             statement.setDouble(1, amount);
             int column = 2;
             if(accountFrom != null){
@@ -176,11 +179,17 @@ public class AccountDAO extends BaseDAO {
                 statement.setString(column++, accountTo.getNumber());
             }
             System.out.println(sql);
-            result = statement.executeUpdate() > 0;
+            statement.executeUpdate();
+            ResultSet resultSet = statement.getGeneratedKeys();
+            if(resultSet.next()) {
+                long id = resultSet.getLong(1);
+                result = new Movement(id);
+            }            
+            resultSet.close();
             statement.close();
             disconnect();
         }catch(SQLException ex){
-            
+            ex.printStackTrace();
         }
         return result;     
     }
