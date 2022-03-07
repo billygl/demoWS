@@ -1,8 +1,11 @@
 package com.hacking.demows.controllers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.hacking.demows.adapters.ITextAdapter;
 import com.hacking.demows.components.JwtTokenUtil;
 import com.hacking.demows.dao.AccountDAO;
 import com.hacking.demows.dao.UserDAO;
@@ -95,6 +98,14 @@ public class BankJwtController {
         List<Account> list = new ArrayList<Account>();
         list = accountDAO.list(getUser());
         return list;
+    }
+    
+    @GetMapping("/pdf")
+    Map<String, String> getPdf() {
+        init();
+        Map<String, String> result = new HashMap<String, String>();
+        result.put("pdf", ITextAdapter.getPDF(null));
+        return result;
     }
 
     @PostMapping("/withdraw/{accountNumber}")
