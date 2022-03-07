@@ -5,10 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.hacking.demows.dto.TransferResponse;
 import com.hacking.demows.adapters.ITextAdapter;
 import com.hacking.demows.components.JwtTokenUtil;
 import com.hacking.demows.dao.AccountDAO;
 import com.hacking.demows.dao.UserDAO;
+import com.hacking.demows.dto.AccountResponse;
+import com.hacking.demows.dto.AccountResponseAccount;
+import com.hacking.demows.dto.CreditRequest;
 import com.hacking.demows.dto.DepositRequest;
 import com.hacking.demows.dto.JwtRequest;
 import com.hacking.demows.dto.JwtResponse;
@@ -65,19 +69,33 @@ public class BankJwtController {
         accountDAO = new AccountDAO(jdbcURL, jdbcUsername, jdbcPassword);
     }
 
+    private User getUserByRequest(String userpass){
+        if(userpass == null){
+            return null;
+        }
+        byte[] decodedUserPass = java.util.Base64.getDecoder().decode(userpass);
+        String decodedUserPassStr = new String(decodedUserPass);
+        String[] userPassParts = decodedUserPassStr.split(":");
+        if(userPassParts.length == 2){
+            String username = userPassParts[0];
+            String pass = userPassParts[1];
+            return new User(username, pass, null);
+        }
+        return null;
+    }
+
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
 	public ResponseEntity<?> createAuthenticationToken(
         @RequestBody JwtRequest authenticationRequest) throws Exception {
         init();
-        authenticate(
-            authenticationRequest.getUsername(), 
-            authenticationRequest.getPassword()
-        );
-
-		final User user = userDAO.validateUser(
-            authenticationRequest.getUsername(), 
-            authenticationRequest.getPassword()
-        );
+        User user = getUserByRequest(authenticationRequest.getUserpass());
+        if(user != null){
+            authenticate(user.getUser(), user.getPass());
+        }else{
+            throw new Exception("INVALID_CREDENTIALS", 
+            new BadCredentialsException("error"));
+        }
+		user = userDAO.validateUser(user.getUser(), user.getPass());
 
 		final String token = jwtTokenUtil.generateToken(user);
         userDAO.addToken(token, user);
@@ -109,13 +127,13 @@ public class BankJwtController {
     }
 
     @PostMapping("/withdraw/{accountNumber}")
-    Account withdraw(
+    TransferResponse withdraw(
         @PathVariable String accountNumber,
         @RequestBody WithdrawRequest request
     ) {
         init();
-        Account result  = null;        
-        Account account = accountDAO.getAccount(getUser(), accountNumber);
+        TransferResponse result  = new TransferResponse();
+        Account account = accountDAO.getAccount(null, accountNumber);
         if(account == null){
             throwError(HttpStatus.NOT_FOUND, "Cuenta no encontrada");
         }
@@ -124,38 +142,44 @@ public class BankJwtController {
             throwError(HttpStatus.BAD_REQUEST, "Monto solicitado mayor al saldo");
         } else{
             if(accountDAO.setBalance(account, newBalance)){
-                result = account;
+                result.setSuccess(true);
+                result.setMovement(
+                    accountDAO.transfer(account, null, request.getAmount())
+                );
             }
         }
         return result;
     }
     
     @PostMapping("/deposit/{accountNumber}")
-    Account deposit(
+    TransferResponse deposit(
         @PathVariable String accountNumber,
         @RequestBody DepositRequest request
     ) {
         init();
-        Account result  = null;        
+        TransferResponse result  = new TransferResponse();   
         Account account = accountDAO.getAccount(getUser(), accountNumber);
         if(account == null){
             throwError(HttpStatus.NOT_FOUND, "Cuenta no encontrada");
         }
         double newBalance = account.getBalance() + request.getAmount();
         if(accountDAO.setBalance(account, newBalance)){
-            result = account;
+            result.setSuccess(true);
+            result.setMovement(
+                accountDAO.transfer(null, account, request.getAmount())
+            );
         }
         return result;
     }
 
     @PostMapping("/transfer/{accountNumberFrom}/{accountNumberTo}")
-    Account transfer(
+    TransferResponse transfer(
         @PathVariable String accountNumberFrom,
         @PathVariable String accountNumberTo,
         @RequestBody TransferRequest request
     ) {
         init();
-        Account result  = null;
+        TransferResponse result  = new TransferResponse();
         User user = getUser();
         Account accountFrom = accountDAO.getAccount(user, accountNumberFrom);
         Account accountTo = accountDAO.getAccount(null, accountNumberTo);
@@ -169,10 +193,68 @@ public class BankJwtController {
         } else{
             if(accountDAO.setBalance(accountFrom, newBalanceFrom) &&
                 accountDAO.setBalance(accountTo, newBalanceTo)){
-                result = accountFrom;
+                result.setSuccess(true);
+                result.setMovement(
+                    accountDAO.transfer(
+                        accountFrom, accountTo, request.getAmount()
+                    )
+                );
             }
         }
 
+        return result;
+    }
+
+    @PostMapping("/credit")
+    AccountResponse getCredit(
+        @RequestBody CreditRequest request
+    ) {
+        init();
+        AccountResponse result  = new AccountResponse();
+        double AMOUNT_OK = 4000;
+        if(request.getAmount() > AMOUNT_OK){
+            User user = getUser();
+            Account account = new Account(
+                Account.TYPE_CREDIT, request.getAmount(), "CREDIT", ""
+            );
+            account = accountDAO.create(user, account);
+            result.setSuccess(true);
+            result.setAccount(new AccountResponseAccount(account.getId()));
+        }
+        return result;
+    }
+    
+    @PostMapping("/credit/{id}/{accountNumber}")
+    TransferResponse getCreditDeposit(
+        @PathVariable long id,
+        @PathVariable String accountNumber
+    ) {
+        init();
+        TransferResponse result  = new TransferResponse();
+        //User user = getUser();
+        Account accountFrom = accountDAO.getAccount(null, null, id);
+        Account accountTo = accountDAO.getAccount(null, accountNumber);
+        if(accountFrom == null){
+            throwError(HttpStatus.NOT_FOUND, "Cuenta no encontrada");
+        }
+        double amount = accountFrom.getBalance();
+        double newBalanceFrom = accountFrom.getBalance() - amount;
+        double newBalanceTo = accountTo.getBalance() + amount;
+        if(newBalanceFrom < 0){
+            throwError(HttpStatus.BAD_REQUEST, "Monto solicitado mayor al saldo");
+        } else if(amount == 0){
+            throwError(HttpStatus.BAD_REQUEST, "Saldo insuficiente de la cuenta de origen");
+        } else{
+            if(accountDAO.setBalance(accountFrom, newBalanceFrom) &&
+                accountDAO.setBalance(accountTo, newBalanceTo)){
+                result.setSuccess(true);
+                result.setMovement(
+                    accountDAO.transfer(
+                        accountFrom, accountTo, amount
+                    )
+                );
+            }
+        }
         return result;
     }
 

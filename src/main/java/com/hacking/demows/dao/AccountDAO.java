@@ -89,12 +89,52 @@ public class AccountDAO extends BaseDAO {
         }        
         return list;
     }
+
+    public Account create(User user, Account account){
+        try{
+            connect();
+            String sql = "INSERT INTO accounts ";
+            sql += "(balance, type, name, number, user_id) ";
+            sql += "VALUES (?, ?, ?, ?, ?)";
+            
+            PreparedStatement statement = jdbcConnection.prepareStatement(
+                sql, Statement.RETURN_GENERATED_KEYS
+            );
+            statement.setDouble(1, account.getBalance());
+            statement.setInt(2, account.getType());
+            statement.setString(3, account.getName());
+            statement.setString(4, account.getNumber());
+            statement.setInt(5, user.getId());
+            
+            System.out.println(sql);
+            statement.executeUpdate();
+            ResultSet resultSet = statement.getGeneratedKeys();
+            if(resultSet.next()) {
+                long id = resultSet.getLong(1);
+                account.setId(id);
+            }            
+            resultSet.close();
+            statement.close();
+            disconnect();
+        }catch(SQLException ex){
+
+        }
+        return account;     
+    }
     
     public Account getAccount(User user, String number) {
+        return getAccount(user, number, 0);
+    }
+    public Account getAccount(User user, String number, long id) {
         Account account = null;
         try{
             //unsecured
-            String sql = "SELECT * FROM accounts WHERE number = '" + number + "'";
+            String sql = "SELECT * FROM accounts WHERE ";
+            if(id != 0){
+                sql += " account_id = " + id + "";
+            }else{
+                sql += " number = '" + number + "'";
+            }
             if(user != null){
                 sql += " and user_id = " + user.getId();
             }
@@ -106,7 +146,7 @@ public class AccountDAO extends BaseDAO {
             ResultSet resultSet = statement.executeQuery(sql);            
             
             if(resultSet.next()) {
-                long id = resultSet.getLong("account_id");
+                id = resultSet.getLong("account_id");
                 double balance = resultSet.getDouble("balance");
                 String name = resultSet.getString("name");
                 
