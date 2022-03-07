@@ -1,9 +1,15 @@
 package com.hacking.demows.controllers;
 
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.hacking.demows.dto.TransferResponse;
+import com.hacking.demows.adapters.ITextAdapter;
 import com.hacking.demows.components.JwtTokenUtil;
 import com.hacking.demows.dao.AccountDAO;
 import com.hacking.demows.dao.MovementDAO;
@@ -120,12 +126,27 @@ public class BankJwtController {
     }
     
     @GetMapping("/movement/{id}")
-    Movement getPdf(@PathVariable Long id) {
+    Map<String, Object> getPdf(@PathVariable Long id) {
         init();
-        /*Map<String, String> result = new HashMap<String, String>();
-        id
-        result.put("pdf", ITextAdapter.getPDF(null));*/
-        return movementDAO.getMovement(null, id);
+        Map<String, Object> result = new HashMap<String, Object>();
+        Movement movement =  movementDAO.getMovement(null, id);
+        result.put("movement", movement);
+        List<String> lines = new ArrayList<String>();
+        if(movement.getAccountFrom() != null){
+            lines.add("Cuenta origen: " + movement.getAccountFrom());
+        }
+        if(movement.getAccountTo() != null){
+            lines.add("Cuenta destino: " + movement.getAccountTo());
+        }
+        lines.add("Monto: " + movement.getAmount());
+        DateTimeFormatter formatter = DateTimeFormatter.
+            ofLocalizedDateTime( FormatStyle.SHORT );
+        lines.add("Fecha y hora: " + formatter.format(
+            movement.getCreatedAt().
+                toInstant().atZone(ZoneId.of("America/Lima"))
+        ));
+        result.put("pdf", ITextAdapter.getPDF("Constancia", lines));
+        return result;
     }
 
     @PostMapping("/withdraw/{accountNumber}")

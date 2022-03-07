@@ -2,7 +2,6 @@ package com.hacking.demows.models;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Movement {
@@ -10,14 +9,14 @@ public class Movement {
 
     @JsonIgnore
     protected double amount;
-    
+
     @JsonIgnore
     protected String accountFrom;
 
     @JsonIgnore
     protected String accountTo;
     
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonIgnore
     protected Date createdAt;
     
     public Movement(long id) {
@@ -63,5 +62,13 @@ public class Movement {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
 }
