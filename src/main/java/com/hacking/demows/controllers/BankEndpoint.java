@@ -59,7 +59,7 @@ public class BankEndpoint {
 	@ResponsePayload
 	public GetBalancesResponse getBalances(@RequestPayload GetBalancesRequest request) {
         init();
-        User user = userDAO.validateUser(request.getUser(), request.getPass());
+        User user = null;//userDAO.validateUser(request.getUser(), request.getPass());
         if(user == null){
             throwError("Error", "401", "Usuario o contraseña no válidos");
         } else{
