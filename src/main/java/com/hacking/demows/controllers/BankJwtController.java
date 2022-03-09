@@ -77,7 +77,6 @@ public class BankJwtController {
         );
 
 		final String token = jwtTokenUtil.generateToken(user);
-        userDAO.addToken(token, user);
 
 		return ResponseEntity.ok(new JwtResponse(token));
 	}
