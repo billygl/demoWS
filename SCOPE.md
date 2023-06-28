@@ -106,7 +106,7 @@
 
 # Laboratorio 07:
 --------------------
-@gustavo aquí tenemos que florear sobre tus vulns. De JWT.
+@gustavo aquí tenemos que hablar sobre tus vulns. De JWT.
 - no hay rama al respecto
 
 # Laboratorio 08:
