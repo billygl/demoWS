@@ -1,23 +1,39 @@
 package com.hacking.demows.models;
 
 public class Account {
-    protected int id;
+    protected long id;
+    protected int type;
+
     protected double balance;
     protected String name;
     protected String number;
+
+    public final static int TYPE_DEBIT = 0;
+    public final static int TYPE_CREDIT = 1;
+
+    public Account(long id){
+        this.id = id;
+    }
     
-    public Account(int id, double balance, String name, String number) {
+    public Account(long id, double balance, String name, String number) {
         this.id = id;
         this.balance = balance;
         this.name = name;
         this.number = number;
     }
+    
+    public Account(int type, double balance, String name, String number) {
+        this.type = type;
+        this.balance = balance;
+        this.name = name;
+        this.number = number;
+    }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -43,5 +59,13 @@ public class Account {
 
     public void setNumber(String number) {
         this.number = number;
-    }    
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
 }

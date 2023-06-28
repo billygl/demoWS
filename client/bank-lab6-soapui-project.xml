@@ -135,7 +135,7 @@
    <soapenv:Header/>
    <soapenv:Body>
       <dem:depositJwtRequest>
-         <dem:token>eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyQG1haWwuY29tIiwiZXhwIjoxNjQ2MTk2MjYzLCJpYXQiOjE2NDYxNzgyNjN9.m2k354qjtqoWgskRLBS3lPdujmzAFHB0U8xw5mekYGbG1Qis0kMhR0dafotNYjiaj3KL4I2f_2q413Ah7EKWCg</dem:token>
+         <dem:token>eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyQG1haWwuY29tIiwiZXhwIjoxNjQ2MjU4MjYxLCJpYXQiOjE2NDYyNDAyNjF9.9I_90w7R4VcwVp0FlROLeSp812xTIJsm4bqR5IDAI8XMbhYit0AGm0viXE1qJxW8Klkh996IP-FKe3iQNHPz8A</dem:token>
          <dem:account>19345654321013</dem:account>
          <dem:amount>1</dem:amount>
       </dem:depositJwtRequest>
@@ -144,15 +144,15 @@
    <soapenv:Header/>
    <soapenv:Body>
       <dem:getBalancesJwtRequest>
-         <dem:token>eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyQG1haWwuY29tIiwiZXhwIjoxNjQ2MTk2MjYzLCJpYXQiOjE2NDYxNzgyNjN9.m2k354qjtqoWgskRLBS3lPdujmzAFHB0U8xw5mekYGbG1Qis0kMhR0dafotNYjiaj3KL4I2f_2q413Ah7EKWCg</dem:token>
+         <dem:token>eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyQG1haWwuY29tIiwiZXhwIjoxNjQ2MjU4MjYxLCJpYXQiOjE2NDYyNDAyNjF9.9I_90w7R4VcwVp0FlROLeSp812xTIJsm4bqR5IDAI8XMbhYit0AGm0viXE1qJxW8Klkh996IP-FKe3iQNHPz8A</dem:token>
       </dem:getBalancesJwtRequest>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://hacking.com/demows/BankPort/getBalancesRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="942c98dd-a8e5-4c4a-bbf4-61f6a6d7d98f" isOneWay="false" action="" name="transferJwt" bindingOperationName="transferJwt" type="One-Way" inputName="transferJwtRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="26cca339-b1ac-4573-9ef8-aea7eb0db381" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/ws</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:dem="http://hacking.com/demows">
    <soapenv:Header/>
    <soapenv:Body>
       <dem:transferJwtRequest>
-         <dem:token>eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyQG1haWwuY29tIiwiZXhwIjoxNjQ2MTk2MjYzLCJpYXQiOjE2NDYxNzgyNjN9.m2k354qjtqoWgskRLBS3lPdujmzAFHB0U8xw5mekYGbG1Qis0kMhR0dafotNYjiaj3KL4I2f_2q413Ah7EKWCg</dem:token>
-         <dem:accountFrom>19345654321013</dem:accountFrom>
+         <dem:token>eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyQG1haWwuY29tIiwiZXhwIjoxNjQ2MjU4MjYxLCJpYXQiOjE2NDYyNDAyNjF9.9I_90w7R4VcwVp0FlROLeSp812xTIJsm4bqR5IDAI8XMbhYit0AGm0viXE1qJxW8Klkh996IP-FKe3iQNHPz8A</dem:token>
+         <dem:accountFrom>19345654321012</dem:accountFrom>
          <dem:accountTo>19345654321014</dem:accountTo>
          <dem:amount>1</dem:amount>
       </dem:transferJwtRequest>
