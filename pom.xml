@@ -97,6 +97,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>demows_docker</finalName>
 	</build>
 
 </project>

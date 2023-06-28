@@ -1,0 +1,22 @@
+version: "1"
+services:
+  demows:
+    build: .
+    ports:
+      - "8080:8080"
+    networks:
+      - kunak-network
+    depends_on:
+      - mysqldb
+    volumes:
+      - ./.m2:/root/.m2
+  mysqldb:
+    image: mysql:8
+    networks:
+      - kunak-network
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=demoHacking2  
+
+networks:
+  kunak-network: 
