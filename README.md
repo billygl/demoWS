@@ -7,6 +7,14 @@
 - Se puede usar https://www.base64encode.org/ para encodificar user:pass
 
 # TOOLS
+## Git
+- https://git-scm.com/downloads
+- Instalar
+- Para cambiar de rama usar
+````
+git checkout lab1
+git checkout lab10
+````
 ## Docker Desktop
 - https://www.docker.com/products/docker-desktop/
 - Instalar
