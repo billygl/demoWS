@@ -1,3 +1,32 @@
+# docker
+- https://geshan.com.np/blog/2022/02/mysql-docker-compose/
+- https://docs.docker.com/storage/volumes/#mount-a-host-file-as-a-data-volume
+- https://docs.docker.com/engine/reference/commandline/build/
+- https://www.javainuse.com/devOps/docker/docker-mysql
+- https://www.javaguides.net/2022/12/deploy-spring-boot-mysql-application-to-docker.html
+- https://levelup.gitconnected.com/dockerizing-spring-boot-mysql-application-73e09a485c0a
+- https://github.com/amilairoshan/SpringBoot-MySql-With-Docker-Compose/blob/master/docker-compose.yml
+- https://medium.com/thefreshwrites/the-way-of-dockerize-a-spring-boot-and-mysql-application-with-docker-compose-de2fc03c6a42
+## volumes
+- https://stackoverflow.com/questions/46907558/docker-compose-relative-paths-vs-docker-volume
+## mysql
+- https://hub.docker.com/_/mysql
+- https://stackoverflow.com/questions/36617682/docker-compose-mysql-import-sql
+- https://stackoverflow.com/questions/38504257/mysql-scripts-in-docker-entrypoint-initdb-are-not-executed
+- https://forums.docker.com/t/mysql-create-database-and-import-sql-file-with-dockerfile/30300/12
+- https://github.com/docker-library/mysql/blob/1bfa4724fe112b4246672ed2b3c42142f17d5636/8.0/docker-entrypoint.sh
+- https://stackoverflow.com/questions/6865538/solving-a-communications-link-failure-with-jdbc-and-mysql
+- https://serverfault.com/questions/1081624/cannot-connect-to-remote-database-from-docker-with-java-application
+- https://stackoverflow.com/questions/51980647/springboot-on-docker-unable-to-connect-to-mysql
+- https://stackoverflow.com/questions/54067314/communicating-with-mysql-server-on-docker
+
+## changes in code
+- https://stackoverflow.com/questions/31750386/docker-compose-not-showing-any-changes-to-code
+
+# mysql
+- https://stackoverflow.com/questions/52344453/loading-class-com-mysql-jdbc-driver-is-deprecated-message
+- https://stackoverflow.com/questions/52032739/loading-class-com-mysql-jdbc-driver-this-is-deprecated-the-new-driver-class
+
 # issue with Java server in VSCode
 - The Language Support for Java server crashed 5 times in the last 3 minutes. The server will not be restarted. #743
   - https://github.com/redhat-developer/vscode-java/issues/743

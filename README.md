@@ -7,32 +7,26 @@
 - Se puede usar https://www.base64encode.org/ para encodificar user:pass
 
 # TOOLS
-## JDK 11
-- https://www.oracle.com/java/technologies/javase/jdk11-archive-downloads.html
+## Docker Desktop
+- https://www.docker.com/products/docker-desktop/
 - Instalar
-
-## VSCode
-- https://code.visualstudio.com/download
-- Instalar Extension Pack for Java
-- Configurar en sección Java Projects, clic en tres puntos que aparecen a la derecha del título
-  - Configurar Java Runtime para JDK 11.
 
 ## Soap UI
 - https://www.soapui.org/downloads/latest-release/
 - Instalar
 
-# DATABASE
-- Usar MySQL
-- Instalar sql/demohacking.sql
-````
-ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
-FLUSH PRIVILEGES;
-````
+# BUILD
 - run
 ````
-cat demoHacking.sql | sudo mysql -u root -p
+docker-compose build
 ````
+- if necessary, delete db to restart database
 
 # RUN
-- Usar VSCode
-- En sección Java Projects, clic derecho en demows/Run
+````
+docker-compose up
+````
+- wait until ready for connections
+
+# In PC
+- See README.old.md

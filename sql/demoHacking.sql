@@ -1,6 +1,6 @@
 -- DROP DATABASE demoHacking;
 
-CREATE DATABASE demoHacking2;
+-- CREATE DATABASE demoHacking2;
 USE demoHacking2;
 
 CREATE TABLE `users` (
