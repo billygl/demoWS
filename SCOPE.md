@@ -106,7 +106,7 @@
 
 # Laboratorio 07:
 --------------------
-@gustavo aquí tenemos que florear sobre tus vulns. De JWT.
+@gustavo aquí tenemos que hablar sobre tus vulns. De JWT.
 - no hay rama al respecto
 
 # Laboratorio 08:
@@ -160,7 +160,7 @@
     - POST /restjwt/deposit
   - DESCARGAR CONSTANCIA. Al método se le envía el ID de constancia y debe devolver un PDF en base64 con la operacion).
     - Método vulnerable, cualquier usuario puede descargar la constancia de otro usuario).
-    
+    - GET /restjwt/movement/{id}
   - Calificacion_Prestamo
     - Se le envía un monto de ingreso en soles. Si el monto es superior a 4000. Sale OK, es decir, calificado para el prestamo. Monto inferior no califica.
     - El método genera un ID de préstamo en caso de ser OK.
@@ -170,4 +170,5 @@
     - El método es vulnerable, debería validar el ID solo es para el usuario que lo genero.  Cualquier usuario puede utilizar el método y sacar préstamo.
     - :: "y obtener el desembolso"
     - POST /restjwt/credit/{id}
-  - logout no debe cerrar la sesión. (vulnerable)    
+  - logout no debe cerrar la sesión. (vulnerable)
+  
