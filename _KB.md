@@ -19,7 +19,10 @@
 - https://serverfault.com/questions/1081624/cannot-connect-to-remote-database-from-docker-with-java-application
 - https://stackoverflow.com/questions/51980647/springboot-on-docker-unable-to-connect-to-mysql
 - https://stackoverflow.com/questions/54067314/communicating-with-mysql-server-on-docker
-
+- fix error en connection
+`````
+allowPublicKeyRetrieval=true&useSSL=false
+````
 ## changes in code
 - https://stackoverflow.com/questions/31750386/docker-compose-not-showing-any-changes-to-code
 
