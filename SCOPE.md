@@ -50,7 +50,8 @@
     - POST rest/deposit
   - Método: Transferir dinero
     - POST rest/transfer
-- Se usa Authorization header para user y pass usando Basic
+- Se usa headers
+  - X-API-Key: para el key de acceso al servicio web
   - Authorization: Basic BASE64(user:pass)
     - BASE64(user:pass) es la encodificación de user:passs
 
@@ -60,18 +61,19 @@
   - Se cambiaron las queries de los DAO
   - Se tiene un ejemplo en ws/ getBalancesRequest
 
-# Laboratorio 04b:
---------------------
-- REST vulnerable a inyecciones SQL.
-  - usando como el ejercicio 1
-- Rama basada en Lab4
-
 # Laboratorio 05:
 --------------------
 - REST vulnerable a inyecciones SQL.
   - Se tiene un ejemplo en GET rest/balances
     - Authorization base64(user@mail.com:' OR '' = ')
 - Rama basada en Lab4
+
+# Laboratorio 05b:
+--------------------
+- REST vulnerable a inyecciones SQL.
+  - usando como el ejercicio 1
+- Rama basada en Lab5
+
 
 # Laboratorio 06:
 --------------------
@@ -124,6 +126,9 @@
   - Método: Logout (que no cierre el TOKEN y sea vulnerable)
     - GET /restjwt/logout
 
+# Laboratorio 08b
+- incluye password en JWt
+
 # Laboratorio 09: (muy parecido al 08)
 --------------------
 - Armar un Web Service en REST
@@ -137,3 +142,33 @@
     - DELETE /storejwt/products/{productId}
   - Método: Logout (que cierre el token y no se pueda reutilizar)
     - GET /storejwt/logout
+
+# Laboratorio 10 (REST)
+1. Autenticar en el sistema con USER + PASS. El login genera un JWT.
+2. El user y pass se envian encodeados por BASE64 como parametros.
+3. Métodos:
+  - Balance
+    - POST /restjwt/balances/{userId}
+  - Transferencia (metodo no vulnerable)
+    - DEBEN GENERAR UN ID de CONSTANCIA (un ID grande y consecutivo)
+    - POST /restjwt/transfer
+  - Retiro
+    - DEBEN GENERAR UN ID de CONSTANCIA (un ID grande y consecutivo)
+    - POST /restjwt/withdraw
+  - Deposito
+    - DEBEN GENERAR UN ID de CONSTANCIA (un ID grande y consecutivo)    
+    - POST /restjwt/deposit
+  - DESCARGAR CONSTANCIA. Al método se le envía el ID de constancia y debe devolver un PDF en base64 con la operacion).
+    - Método vulnerable, cualquier usuario puede descargar la constancia de otro usuario).
+    - GET /restjwt/movement/{id}
+  - Calificacion_Prestamo
+    - Se le envía un monto de ingreso en soles. Si el monto es superior a 4000. Sale OK, es decir, calificado para el prestamo. Monto inferior no califica.
+    - El método genera un ID de préstamo en caso de ser OK.
+    - POST /restjwt/credit
+  - desembolsar_Prestamo.
+    - Se le envía el monto a desembolsar (sin restriccion) y se le envía el ID generado en el metodo Calificacion_Prestamo. Si el codigo es OK, se le suma el monto a dicha cuenta.
+    - El método es vulnerable, debería validar el ID solo es para el usuario que lo genero.  Cualquier usuario puede utilizar el método y sacar préstamo.
+    - :: "y obtener el desembolso"
+    - POST /restjwt/credit/{id}
+  - logout no debe cerrar la sesión. (vulnerable)
+  

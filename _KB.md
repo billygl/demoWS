@@ -1,3 +1,16 @@
+# issue with Java server in VSCode
+- The Language Support for Java server crashed 5 times in the last 3 minutes. The server will not be restarted. #743
+  - https://github.com/redhat-developer/vscode-java/issues/743
+
+# iText
+https://itextpdf.com/en/products/itext-7/itext-7-core
+- https://kb.itextsupport.com/home/it7kb/ebooks/itext-7-jump-start-tutorial-for-java/chapter-1-introducing-basic-building-blocks
+- https://kb.itextpdf.com/home/it7kb/examples
+
+# PDF in base64
+- https://stackoverflow.com/questions/46965804/generate-pdf-base64-encode-from-itext-in-java
+  - https://base64.guru/converter/decode/pdf
+
 # mysql
 - https://stackoverflow.com/questions/11922323/java-sql-sqlexception-access-denied-for-user-rootlocalhost-using-password/52463043#52463043
 - https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-20-04
