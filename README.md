@@ -10,11 +10,7 @@
 ## Git
 - https://git-scm.com/downloads
 - Instalar
-- Para cambiar de rama usar
-````
-git checkout lab1
-git checkout lab10
-````
+
 ## Docker Desktop
 - https://www.docker.com/products/docker-desktop/
 - Instalar
@@ -37,6 +33,16 @@ docker-compose up
 - wait until ready for connections
 - access to http://localhost:8080, it shows a whitelabel
 - use soap ui and xml
+
+# 4. TEST
+````
+- Cambiar de laboratorio usando `git checkout labN` donde N es el número de laboratorio
+- Ejecutar desde la carpeta del proyecto
+````
+git checkout lab1
+git checkout lab10
+````
+````
 
 # Otro formas de ejecutar el proyecto
 - See README.old.md
