@@ -35,6 +35,8 @@ docker-compose build
 docker-compose up
 ````
 - wait until ready for connections
+- access to http://localhost:8080, it shows a whitelabel
+- use soap ui and xml
 
 # Otro formas de ejecutar el proyecto
 - See README.old.md
