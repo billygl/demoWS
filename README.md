@@ -32,7 +32,6 @@ docker-compose up
 ````
 - wait until ready for connections
 - access to http://localhost:8080, it shows a whitelabel
-- use soap ui and xml
 
 # 4. TEST
 - Cambiar de laboratorio usando `git checkout labN` donde N es el número de laboratorio
@@ -41,6 +40,7 @@ docker-compose up
 git checkout lab1
 git checkout lab10
 ````
+- use soap ui e importar xml de la carpeta client según el proyecto
 
 # Otro formas de ejecutar el proyecto
 - See README.old.md
