@@ -6,7 +6,7 @@
 ## Lab 3, 5
 - Se puede usar https://www.base64encode.org/ para encodificar user:pass
 
-# TOOLS
+# 1. PreRequisitos: TOOLS
 ## Git
 - https://git-scm.com/downloads
 - Instalar
@@ -23,14 +23,14 @@ git checkout lab10
 - https://www.soapui.org/downloads/latest-release/
 - Instalar
 
-# BUILD
+# 2. BUILD
 - run
 ````
 docker-compose build
 ````
 - if necessary, delete db to restart database
 
-# RUN
+# 3. RUN
 ````
 docker-compose up
 ````
