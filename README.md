@@ -35,13 +35,11 @@ docker-compose up
 - use soap ui and xml
 
 # 4. TEST
-````
 - Cambiar de laboratorio usando `git checkout labN` donde N es el número de laboratorio
 - Ejecutar desde la carpeta del proyecto
 ````
 git checkout lab1
 git checkout lab10
-````
 ````
 
 # Otro formas de ejecutar el proyecto
