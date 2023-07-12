@@ -41,6 +41,7 @@ git checkout lab1
 git checkout lab10
 ````
 - use soap ui e importar xml de la carpeta client según el proyecto
+- para ver la base de datos, conectarse usando el terminal del docker.
 
 # Otro formas de ejecutar el proyecto
 - See README.old.md
