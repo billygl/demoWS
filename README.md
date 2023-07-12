@@ -36,5 +36,5 @@ docker-compose up
 ````
 - wait until ready for connections
 
-# In PC
+# Otro formas de ejecutar el proyecto
 - See README.old.md
