@@ -35,10 +35,14 @@ docker-compose up
 
 # 4. TEST
 - Cambiar de laboratorio usando `git checkout labN` donde N es el número de laboratorio
-- Ejecutar desde la carpeta del proyecto
+- Ejecutar desde la carpeta del proyecto para cambiar de laboratorio
 ````
 git checkout lab1
 git checkout lab10
+````
+- Y ejecutar con el parámetro build para aplicar los cambios al contenedor.
+````
+docker-compose up --build
 ````
 - use soap ui e importar xml de la carpeta client según el proyecto
 - para ver la base de datos, conectarse usando el terminal del docker.
