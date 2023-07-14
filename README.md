@@ -47,5 +47,11 @@ docker-compose up --build
 - use soap ui e importar xml de la carpeta client según el proyecto
 - para ver la base de datos, conectarse usando el terminal del docker.
 
+# UPDATE code
+- Ejecutar
+````
+git pull --all
+````
+
 # Otro formas de ejecutar el proyecto
 - See README.old.md
