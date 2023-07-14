@@ -109,16 +109,9 @@ public class BankJwtEndpoint {
 	@ResponsePayload
 	public WithdrawResponse withdraw(@RequestPayload WithdrawJwtRequest request) {
         init();
-<<<<<<<< HEAD:src/main/java/com/hacking/demows/controllers/BankEndpoint.java
-        //User user = userDAO.validateUser(request.getUser(), request.getPass());
-        User user = null;
-        if(user == null){
-            throwError("Error", "401", "Usuario o contraseña no válidos");
-========
         String username = jwtTokenUtil.getUsernameFromToken(request.getToken());
         if(!userDAO.validateToken(username, request.getToken())){
             throwError("Error", "401", "Token inválido");
->>>>>>>> master:src/main/java/com/hacking/demows/controllers/BankJwtEndpoint.java
         } else{
             User user = userDAO.getUser(username);
             WithdrawResponse response = new WithdrawResponse();
@@ -144,16 +137,9 @@ public class BankJwtEndpoint {
 	@ResponsePayload
 	public DepositResponse deposit(@RequestPayload DepositJwtRequest request) {
         init();
-<<<<<<<< HEAD:src/main/java/com/hacking/demows/controllers/BankEndpoint.java
-        //User user = userDAO.validateUser(request.getUser(), request.getPass());
-        User user = null;
-        if(user == null){
-            throwError("Error", "401", "Usuario o contraseña no válidos");
-========
         String username = jwtTokenUtil.getUsernameFromToken(request.getToken());
         if(!userDAO.validateToken(username, request.getToken())){
             throwError("Error", "401", "Token inválido");
->>>>>>>> master:src/main/java/com/hacking/demows/controllers/BankJwtEndpoint.java
         } else{
             DepositResponse response = new DepositResponse();
             boolean result = false;
@@ -174,16 +160,9 @@ public class BankJwtEndpoint {
 	@ResponsePayload
 	public TransferResponse transfer(@RequestPayload TransferJwtRequest request) {
         init();
-<<<<<<<< HEAD:src/main/java/com/hacking/demows/controllers/BankEndpoint.java
-        //User user = userDAO.validateUser(request.getUser(), request.getPass());
-        User user = null;
-        if(user == null){
-            throwError("Error", "401", "Usuario o contraseña no válidos");
-========
         String username = jwtTokenUtil.getUsernameFromToken(request.getToken());
         if(!userDAO.validateToken(username, request.getToken())){
             throwError("Error", "401", "Token inválido");
->>>>>>>> master:src/main/java/com/hacking/demows/controllers/BankJwtEndpoint.java
         } else{
             User user = userDAO.getUser(username);
             TransferResponse response = new TransferResponse();
