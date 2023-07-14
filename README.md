@@ -50,6 +50,7 @@ docker-compose up --build
 # UPDATE code
 - Ejecutar
 ````
+git fetch --all
 git pull --all
 ````
 
