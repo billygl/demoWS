@@ -59,7 +59,7 @@ public class BankEndpoint {
 	@ResponsePayload
 	public GetBalancesResponse getBalances(@RequestPayload GetBalancesRequest request) {
         init();
-        User user = userDAO.validateUser(request.getUser(), request.getPass());
+        User user = userDAO.validateUser(request.getDocumentId(), request.getPass());
         if(user == null){
             throwError("Error", "401", "Usuario o contraseña no válidos");
         } else{
@@ -83,7 +83,7 @@ public class BankEndpoint {
 	@ResponsePayload
 	public WithdrawResponse withdraw(@RequestPayload WithdrawRequest request) {
         init();
-        User user = userDAO.validateUser(request.getUser(), request.getPass());
+        User user = userDAO.validateUser(request.getDocumentId(), request.getPass());
         if(user == null){
             throwError("Error", "401", "Usuario o contraseña no válidos");
         } else{
@@ -110,7 +110,7 @@ public class BankEndpoint {
 	@ResponsePayload
 	public DepositResponse deposit(@RequestPayload DepositRequest request) {
         init();
-        User user = userDAO.validateUser(request.getUser(), request.getPass());
+        User user = userDAO.validateUser(request.getDocumentId(), request.getPass());
         if(user == null){
             throwError("Error", "401", "Usuario o contraseña no válidos");
         } else{
@@ -133,7 +133,7 @@ public class BankEndpoint {
 	@ResponsePayload
 	public TransferResponse transfer(@RequestPayload TransferRequest request) {
         init();
-        User user = userDAO.validateUser(request.getUser(), request.getPass());
+        User user = userDAO.validateUser(request.getDocumentId(), request.getPass());
         if(user == null){
             throwError("Error", "401", "Usuario o contraseña no válidos");
         } else{
