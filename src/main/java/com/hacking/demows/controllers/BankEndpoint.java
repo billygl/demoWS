@@ -67,10 +67,10 @@ public class BankEndpoint {
 	@ResponsePayload
 	public GetBalancesResponse getBalances(@RequestPayload GetBalancesRequest request) {
         init();
-        if(!validateWS(request.getWsKey(), request.getWsSecret())){
-            throwError("Error", "401", "Acceso no autorizado al web service");
+        User user = userDAO.validateUser(request.getDocumentId(), request.getPass());
+        if(user == null){
+            throwError("Error", "401", "Usuario o contraseña no válidos");
         }
-        User user = userDAO.geByDocumentId(request.getDocumentId());
         List<Account> list = accountDAO.list(user);
 
         GetBalancesResponse response = new GetBalancesResponse();
@@ -89,10 +89,10 @@ public class BankEndpoint {
 	@ResponsePayload
 	public WithdrawResponse withdraw(@RequestPayload WithdrawRequest request) {
         init();
-        if(!validateWS(request.getWsKey(), request.getWsSecret())){
-            throwError("Error", "401", "Acceso no autorizado al web service");
+        User user = userDAO.validateUser(request.getDocumentId(), request.getPass());
+        if(user == null){
+            throwError("Error", "401", "Usuario o contraseña no válidos");
         }
-        User user = userDAO.geByDocumentId(request.getDocumentId());
 
         WithdrawResponse response = new WithdrawResponse();
         boolean result = false;
@@ -115,10 +115,10 @@ public class BankEndpoint {
 	@ResponsePayload
 	public DepositResponse deposit(@RequestPayload DepositRequest request) {
         init();
-        if(!validateWS(request.getWsKey(), request.getWsSecret())){
-            throwError("Error", "401", "Acceso no autorizado al web service");
+        User user = userDAO.validateUser(request.getDocumentId(), request.getPass());
+        if(user == null){
+            throwError("Error", "401", "Usuario o contraseña no válidos");
         }
-        User user = userDAO.geByDocumentId(request.getDocumentId());
         DepositResponse response = new DepositResponse();
         boolean result = false;
         Account account = accountDAO.getAccount(null, request.getAccount());
@@ -136,10 +136,10 @@ public class BankEndpoint {
 	@ResponsePayload
 	public TransferResponse transfer(@RequestPayload TransferRequest request) {
         init();
-        if(!validateWS(request.getWsKey(), request.getWsSecret())){
-            throwError("Error", "401", "Acceso no autorizado al web service");
+        User user = userDAO.validateUser(request.getDocumentId(), request.getPass());
+        if(user == null){
+            throwError("Error", "401", "Usuario o contraseña no válidos");
         }
-        User user = userDAO.geByDocumentId(request.getDocumentId());
         TransferResponse response = new TransferResponse();
         boolean result = false;
         Account accountFrom = 
