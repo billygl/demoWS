@@ -1,4 +1,8 @@
 # LABS
+- Descargar el repositorio
+````
+git clone https://github.com/billygl/demoWS.git
+````
 - Los ejemplos de los request están en los proyectos de SOAP UI
 - Se ha versionado las particularidades de cada lab en ramas independientes
 - La rama master es usada como la base para los laboratorios.
